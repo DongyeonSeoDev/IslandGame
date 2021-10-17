@@ -20,6 +20,7 @@ public class CameraManager : MonoBehaviour
 
     private Vector3 direction = Vector3.zero;
     private Vector3 targetPosition = Vector3.zero;
+    private Vector3 rotationValue = Vector3.zero;
     private Vector3 rotateDirection = Vector3.zero;
     private Vector3 targetRotatePosition = Vector3.zero;
     private Vector2 scroll = Vector2.zero;
@@ -68,11 +69,16 @@ public class CameraManager : MonoBehaviour
 
     private void MoveCamera()
     {
-        direction = (lastMousePosition - Input.mousePosition);
+        direction = lastMousePosition - Input.mousePosition;
         direction.z = direction.y;
+
+        rotationValue.y = transform.rotation.eulerAngles.y;
+
+        direction = Quaternion.Euler(rotationValue) * direction;
         direction.y = 0;
 
         targetPosition = transform.position + direction * (speed * Camera.main.fieldOfView) * Time.deltaTime;
+
         targetPosition.x = Mathf.Clamp(targetPosition.x, limitMin.x, limitMax.x);
         targetPosition.z = Mathf.Clamp(targetPosition.z, limitMin.y, limitMax.y);
 
