@@ -15,6 +15,8 @@ public class CameraManager : MonoBehaviour
     [SerializeField] private float limitScrollMax = 0f;
     [SerializeField] private float limitScrollMin = 0f;
 
+    private Camera mainCam;
+
     private Vector3 lastMousePosition = Vector3.zero;
     private Vector3 lastRotationMousePosition = Vector3.zero;
 
@@ -26,6 +28,13 @@ public class CameraManager : MonoBehaviour
     private Vector2 scroll = Vector2.zero;
 
     private float targetScrollValue = 0f;
+
+    private IInteractable lastInteractable = null;
+
+    private void Start()
+    {
+        mainCam = Camera.main;
+    }
 
     private void LateUpdate()
     {
@@ -55,15 +64,23 @@ public class CameraManager : MonoBehaviour
         }
 
         Zoom();
+        FocusCheck();
+    }
+
+    private IInteractable CheckInteractableObject()
+    {
+        var ray = mainCam.ScreenPointToRay(Input.mousePosition);
+
+        return Physics.Raycast(ray, out var hitresult) ? hitresult.collider.GetComponent<IInteractable>() : null;
     }
 
     private void ClickObject()
     {
-        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        var interactable = CheckInteractableObject();
 
-        if (Physics.Raycast(ray, out var hitResult))
+        if (!(interactable is null))
         {
-            Debug.Log(hitResult.transform.gameObject.name + "을 클릭했습니다.");
+            interactable.Interact();
         }
     }
 
@@ -77,7 +94,7 @@ public class CameraManager : MonoBehaviour
         direction = Quaternion.Euler(rotationValue) * direction;
         direction.y = 0;
 
-        targetPosition = transform.position + direction * (speed * Camera.main.fieldOfView) * Time.deltaTime;
+        targetPosition = transform.position + direction * (speed * mainCam.fieldOfView) * Time.deltaTime;
 
         targetPosition.x = Mathf.Clamp(targetPosition.x, limitMin.x, limitMax.x);
         targetPosition.z = Mathf.Clamp(targetPosition.z, limitMin.y, limitMax.y);
@@ -112,6 +129,23 @@ public class CameraManager : MonoBehaviour
         scroll = Input.mouseScrollDelta;
         targetScrollValue = scroll.y * scrollSpeed * Time.deltaTime;
 
-        Camera.main.fieldOfView = Mathf.Clamp(Camera.main.fieldOfView - targetScrollValue, limitScrollMin, limitScrollMax);
+        mainCam.fieldOfView = Mathf.Clamp(mainCam.fieldOfView - targetScrollValue, limitScrollMin, limitScrollMax);
+    }
+
+    private void FocusCheck()
+    {
+        var interactable = CheckInteractableObject();
+
+        if (!(lastInteractable is null) && lastInteractable != interactable)
+        {
+            lastInteractable.ExitFocus();
+        }
+
+        if (!(interactable is null))
+        {
+            interactable.EnterFocus();
+        }
+
+        lastInteractable = interactable;
     }
 }
