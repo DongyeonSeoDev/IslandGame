@@ -4,6 +4,13 @@ public class InteractableObject : Outline, IInteractable
 {
     private bool focus = false;
 
+    private PlayerMove playerMove;
+
+    private void Start()
+    {
+        playerMove = FindObjectOfType<PlayerMove>();
+    }
+
     public void EnterFocus()
     {
         if (!focus)
@@ -29,5 +36,6 @@ public class InteractableObject : Outline, IInteractable
     public void Interact()
     {
         Debug.Log(gameObject.name + "를 클릭했습니다.");
+        playerMove.TargetPosition = transform.position;
     }
 }

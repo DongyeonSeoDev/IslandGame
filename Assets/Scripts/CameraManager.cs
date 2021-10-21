@@ -31,13 +31,52 @@ public class CameraManager : MonoBehaviour
 
     private IInteractable lastInteractable = null;
 
+    private WaitForSeconds startGameDelay;
+
+    [SerializeField] private float targetFieldOfView = 0f;
+    [SerializeField] private float cameraActionTime = 0f;
+    [SerializeField] private float cameraStartTime = 0f;
+
+    private bool gameStart = false;
+
     private void Start()
     {
         mainCam = Camera.main;
+        startGameDelay = new WaitForSeconds(GameManager.Instance.gameStartTime + cameraStartTime);
+
+        StartCoroutine(GameStart());
+    }
+
+    private IEnumerator GameStart()
+    {
+        yield return startGameDelay;
+
+        float currentTime = 0f;
+        float startFieldOfView = mainCam.fieldOfView;
+
+        while (true)
+        {
+            currentTime += Time.deltaTime;
+
+            mainCam.fieldOfView = Mathf.Lerp(startFieldOfView, targetFieldOfView, currentTime / cameraActionTime);
+
+            if (currentTime >= cameraActionTime)
+            {
+                gameStart = true;
+                break;
+            }
+
+            yield return null;
+        }
     }
 
     private void LateUpdate()
     {
+        if (!gameStart)
+        {
+            return;
+        }
+
         if (Input.GetMouseButtonDown(0))
         {
             ClickObject();
@@ -71,7 +110,7 @@ public class CameraManager : MonoBehaviour
     {
         var ray = mainCam.ScreenPointToRay(Input.mousePosition);
 
-        return Physics.Raycast(ray, out var hitresult) ? hitresult.collider.GetComponent<IInteractable>() : null;
+        return Physics.Raycast(ray, out var hit) ? hit.collider.GetComponent<IInteractable>() : null;
     }
 
     private void ClickObject()
