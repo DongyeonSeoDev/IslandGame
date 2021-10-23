@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class CameraManager : MonoBehaviour
 {
@@ -31,43 +32,27 @@ public class CameraManager : MonoBehaviour
 
     private IInteractable lastInteractable = null;
 
-    private WaitForSeconds startGameDelay;
-
     [SerializeField] private float targetFieldOfView = 0f;
     [SerializeField] private float cameraActionTime = 0f;
     [SerializeField] private float cameraStartTime = 0f;
 
     private bool gameStart = false;
 
+    private float lastFieldOfView = 0f;
+
     private void Start()
     {
         mainCam = Camera.main;
-        startGameDelay = new WaitForSeconds(GameManager.Instance.gameStartTime + cameraStartTime);
 
-        StartCoroutine(GameStart());
+        Invoke("GameStart", GameManager.Instance.gameStartTime + cameraStartTime);
     }
 
-    private IEnumerator GameStart()
+    private void GameStart()
     {
-        yield return startGameDelay;
-
-        float currentTime = 0f;
-        float startFieldOfView = mainCam.fieldOfView;
-
-        while (true)
+        mainCam.DOFieldOfView(targetFieldOfView, cameraActionTime).SetEase(Ease.Linear).OnComplete(() =>
         {
-            currentTime += Time.deltaTime;
-
-            mainCam.fieldOfView = Mathf.Lerp(startFieldOfView, targetFieldOfView, currentTime / cameraActionTime);
-
-            if (currentTime >= cameraActionTime)
-            {
-                gameStart = true;
-                break;
-            }
-
-            yield return null;
-        }
+            gameStart = true;
+        });
     }
 
     private void LateUpdate()
@@ -85,6 +70,7 @@ public class CameraManager : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             lastMousePosition = Input.mousePosition;
+            UIManager.Instance.OffUI();
         }
 
         if (Input.GetMouseButton(1))
@@ -95,6 +81,7 @@ public class CameraManager : MonoBehaviour
         if (Input.GetMouseButtonDown(2))
         {
             lastRotationMousePosition = Input.mousePosition;
+            UIManager.Instance.OffUI();
         }
 
         if (Input.GetMouseButton(2))
@@ -115,6 +102,8 @@ public class CameraManager : MonoBehaviour
 
     private void ClickObject()
     {
+        UIManager.Instance.OffUI();
+
         var interactable = CheckInteractableObject();
 
         if (!(interactable is null))
@@ -169,6 +158,12 @@ public class CameraManager : MonoBehaviour
         targetScrollValue = scroll.y * scrollSpeed * Time.deltaTime;
 
         mainCam.fieldOfView = Mathf.Clamp(mainCam.fieldOfView - targetScrollValue, limitScrollMin, limitScrollMax);
+
+        if (lastFieldOfView != mainCam.fieldOfView)
+        {
+            UIManager.Instance.OffUI();
+            lastFieldOfView = mainCam.fieldOfView;
+        }
     }
 
     private void FocusCheck()

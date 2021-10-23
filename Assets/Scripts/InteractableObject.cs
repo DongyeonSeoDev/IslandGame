@@ -37,5 +37,7 @@ public class InteractableObject : Outline, IInteractable
     {
         Debug.Log(gameObject.name + "를 클릭했습니다.");
         playerMove.TargetPosition = transform.position;
+
+        UIManager.Instance.OnUI();
     }
 }
