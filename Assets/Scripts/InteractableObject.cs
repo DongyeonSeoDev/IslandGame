@@ -6,6 +6,8 @@ public class InteractableObject : Outline, IInteractable
 
     private PlayerMove playerMove;
 
+    public UIType uiType = UIType.none;
+
     private void Start()
     {
         playerMove = FindObjectOfType<PlayerMove>();
@@ -38,6 +40,27 @@ public class InteractableObject : Outline, IInteractable
         Debug.Log(gameObject.name + "를 클릭했습니다.");
         playerMove.TargetPosition = transform.position;
 
-        UIManager.Instance.OnUI();
+        UIManager.Instance.OnUI(uiType);
+    }
+
+    public void UpButtonClick()
+    {
+        switch (uiType)
+        {
+            case UIType.tree:
+                gameObject.SetActive(false);
+                Debug.Log("tree 제거");
+                break;
+            case UIType.stone:
+                gameObject.SetActive(false);
+                Debug.Log("stone 제거");
+                break;
+            case UIType.none:
+                Debug.Log("none 클릭");
+                break;
+            default:
+                Debug.LogError("type이 없습니다.");
+                break;
+        }
     }
 }

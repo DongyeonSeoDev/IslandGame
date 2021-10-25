@@ -18,17 +18,38 @@ public class UIManager : Singleton<UIManager>
 
     [SerializeField] private float delayTime = 0f;
     [SerializeField] private float fadeInTime = 0f;
-    [SerializeField] private float imageSpeed = 0f;
+    [SerializeField] private float imageOnSpeed = 0f;
+    [SerializeField] private float imageOffSpeed = 0f;
+    [SerializeField] private float buttonClickDelay = 0.1f;
 
     private Tween currentTween = null;
 
     private bool isOnUI = false;
+
+    [SerializeField] private Button treeAxeButton = null;
+    [SerializeField] private Sprite[] uiSprites = null;
+
+    [SerializeField] private Button buildButton = null;
+    [SerializeField] private GameObject buildPanel = null;
+
+    private bool isShowBuildPanel = false;
 
     private void Start()
     {
         uiImage = ui.GetComponent<Image>();
 
         Invoke("FadeIn", delayTime);
+
+        treeAxeButton.onClick.AddListener(() =>
+        {
+            GameManager.Instance?.currentInteractable?.UpButtonClick();
+        });
+
+        buildButton.onClick.AddListener(() =>
+        {
+            isShowBuildPanel = !isShowBuildPanel;
+            buildPanel.SetActive(isShowBuildPanel);
+        });
     }
 
     private void FadeIn()
@@ -36,14 +57,33 @@ public class UIManager : Singleton<UIManager>
         Color color = Color.black;
         color.a = 0;
 
-        fadeInPanel.DOColor(color, fadeInTime).SetEase(Ease.Linear);
+        fadeInPanel.DOColor(color, fadeInTime).SetEase(Ease.Linear).OnComplete(() =>
+        {
+            fadeInPanel.raycastTarget = false;
+        });
     }
 
-    public void OnUI()
+    public void OnUI(UIType uiType)
     {
+        uiImage.sprite = uiSprites[(int)uiType];
+
+        Invoke("StartOnUI", buttonClickDelay);
+    }
+
+    private void StartOnUI()
+    {
+        if (isOnUI)
+        {
+            return;
+        }
+
         MoveUI();
 
-        currentTween = uiImage.DOFillAmount(1, imageSpeed).SetEase(Ease.Linear);
+        isOnUI = true;
+
+        currentTween?.Complete();
+        currentTween?.Kill();
+        currentTween = uiImage.DOFillAmount(1, imageOnSpeed).SetEase(Ease.Linear);
     }
 
     private void MoveUI()
@@ -54,25 +94,24 @@ public class UIManager : Singleton<UIManager>
         targetPosition.y = Mathf.Clamp(targetPosition.y, limitMinPosition.y, limitMaxPosition.y);
 
         ui.anchoredPosition = targetPosition;
-
-        isOnUI = true;
     }
 
     public void OffUI()
+    {
+        Invoke("StartOffUI", buttonClickDelay);
+    }
+
+    private void StartOffUI()
     {
         if (!isOnUI)
         {
             return;
         }
 
-        currentTween?.Kill();
-        uiImage.fillAmount = 0;
-
         isOnUI = false;
-    }
 
-    public void Click()
-    {
-        Debug.Log("Click");
+        currentTween?.Complete();
+        currentTween?.Kill();
+        currentTween = uiImage.DOFillAmount(0, imageOffSpeed).SetEase(Ease.Linear);
     }
 }

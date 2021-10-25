@@ -108,6 +108,8 @@ public class CameraManager : MonoBehaviour
 
         if (!(interactable is null))
         {
+            GameManager.Instance.currentInteractable = interactable;
+
             interactable.Interact();
         }
     }
