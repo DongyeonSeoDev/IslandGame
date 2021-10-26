@@ -29,8 +29,15 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] private Button treeAxeButton = null;
     [SerializeField] private Sprite[] uiSprites = null;
 
-    [SerializeField] private Button buildButton = null;
+    [SerializeField] private CanvasGroup mainCanvas = null;
     [SerializeField] private GameObject buildPanel = null;
+    [SerializeField] private Button buildPanelButton = null;
+    [SerializeField] private float mainCanvasTime = 0f;
+
+    [SerializeField] private Button[] buildButton = null;
+
+    [SerializeField] private GameObject[] buildObject = null;
+
 
     private bool isShowBuildPanel = false;
 
@@ -45,11 +52,36 @@ public class UIManager : Singleton<UIManager>
             GameManager.Instance?.currentInteractable?.UpButtonClick();
         });
 
-        buildButton.onClick.AddListener(() =>
+        buildPanelButton.onClick.AddListener(() =>
         {
-            isShowBuildPanel = !isShowBuildPanel;
-            buildPanel.SetActive(isShowBuildPanel);
+            buildButtonChange();
         });
+
+        buildButton[0].onClick.AddListener(() =>
+        {
+            Debug.Log("설치");
+
+            //다른 클래스로 옳기기
+            GameManager.Instance.buildObject = Instantiate(buildObject[0]);
+
+            buildButtonChange();
+        });
+
+        buildButton[1].onClick.AddListener(() =>
+        {
+            Debug.Log("설치");
+
+            //다른 클래스로 옳기기
+            GameManager.Instance.buildObject = Instantiate(buildObject[1]);
+
+            buildButtonChange();
+        });
+    }
+
+    private void buildButtonChange()
+    {
+        isShowBuildPanel = !isShowBuildPanel;
+        buildPanel.SetActive(isShowBuildPanel);
     }
 
     private void FadeIn()
@@ -60,6 +92,11 @@ public class UIManager : Singleton<UIManager>
         fadeInPanel.DOColor(color, fadeInTime).SetEase(Ease.Linear).OnComplete(() =>
         {
             fadeInPanel.raycastTarget = false;
+
+            mainCanvas.interactable = true;
+            mainCanvas.blocksRaycasts = true;  
+
+            mainCanvas.DOFade(1, mainCanvasTime);
         });
     }
 

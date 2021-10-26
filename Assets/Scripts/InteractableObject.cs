@@ -55,6 +55,12 @@ public class InteractableObject : Outline, IInteractable
                 gameObject.SetActive(false);
                 Debug.Log("stone 제거");
                 break;
+            case UIType.waterTank:
+                Debug.Log("물 충전");
+                break;
+            case UIType.lightHouse:
+                Debug.Log("등대 작동");
+                break;
             case UIType.none:
                 Debug.Log("none 클릭");
                 break;

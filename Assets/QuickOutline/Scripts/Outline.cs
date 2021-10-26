@@ -81,12 +81,11 @@ public class Outline : MonoBehaviour {
   private bool needsUpdate;
 
   void Awake() {
-
-    // Cache renderers
-    renderers = GetComponentsInChildren<Renderer>();
-
-    // Instantiate outline materials
-    outlineMaskMaterial = Instantiate(Resources.Load<Material>(@"Materials/OutlineMask"));
+        // Cache renderers
+        renderers = GetComponentsInChildren<Renderer>();
+        
+        // Instantiate outline materials
+        outlineMaskMaterial = Instantiate(Resources.Load<Material>(@"Materials/OutlineMask"));
     outlineFillMaterial = Instantiate(Resources.Load<Material>(@"Materials/OutlineFill"));
 
     outlineMaskMaterial.name = "OutlineMask (Instance)";

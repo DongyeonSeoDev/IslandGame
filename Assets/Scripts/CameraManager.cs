@@ -65,6 +65,15 @@ public class CameraManager : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             ClickObject();
+
+            //TODO
+
+            if (GameManager.Instance.buildObject != null)
+            {
+                GameManager.Instance.buildObject.GetComponent<Collider>().enabled = true;
+                GameManager.Instance.buildObject.GetComponent<InteractableObject>().enabled = true;
+                GameManager.Instance.buildObject = null;
+            }
         }
 
         if (Input.GetMouseButtonDown(1))
@@ -97,7 +106,14 @@ public class CameraManager : MonoBehaviour
     {
         var ray = mainCam.ScreenPointToRay(Input.mousePosition);
 
-        return Physics.Raycast(ray, out var hit) ? hit.collider.GetComponent<IInteractable>() : null;
+        IInteractable interactable = Physics.Raycast(ray, out var hit) ? hit.collider.GetComponent<IInteractable>() : null;
+
+        if (GameManager.Instance.buildObject != null)
+        {
+            GameManager.Instance.buildObject.transform.position = hit.point;
+        }
+
+        return interactable;
     }
 
     private void ClickObject()
