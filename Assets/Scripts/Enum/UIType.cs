@@ -4,5 +4,7 @@ public enum UIType
     stone,
     waterTank,
     lightHouse,
+    food,
+    chest,
     none
 }

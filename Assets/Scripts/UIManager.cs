@@ -38,6 +38,8 @@ public class UIManager : Singleton<UIManager>
 
     [SerializeField] private GameObject[] buildObject = null;
 
+    [SerializeField] private Text[] topUIText;
+
 
     private bool isShowBuildPanel = false;
 
@@ -54,31 +56,47 @@ public class UIManager : Singleton<UIManager>
 
         buildPanelButton.onClick.AddListener(() =>
         {
-            buildButtonChange();
+            BuildButtonChange();
         });
 
         buildButton[0].onClick.AddListener(() =>
         {
+            BuildButtonChange();
+
+            if (GameManager.topUICount[TopUI.wood] < 9 || GameManager.topUICount[TopUI.stone] < 4)
+            {
+                return;
+            }
+
             Debug.Log("설치");
+
+            GameManager.topUICount[TopUI.wood] -= 10;
+            GameManager.topUICount[TopUI.stone] -= 5;
 
             //다른 클래스로 옳기기
             GameManager.Instance.buildObject = Instantiate(buildObject[0]);
-
-            buildButtonChange();
         });
 
         buildButton[1].onClick.AddListener(() =>
         {
+            BuildButtonChange();
+
+            if (GameManager.topUICount[TopUI.wood] < 14 || GameManager.topUICount[TopUI.stone] < 4)
+            {
+                return;
+            }
+
             Debug.Log("설치");
+
+            GameManager.topUICount[TopUI.wood] -= 15;
+            GameManager.topUICount[TopUI.stone] -= 5;
 
             //다른 클래스로 옳기기
             GameManager.Instance.buildObject = Instantiate(buildObject[1]);
-
-            buildButtonChange();
         });
     }
 
-    private void buildButtonChange()
+    private void BuildButtonChange()
     {
         isShowBuildPanel = !isShowBuildPanel;
         buildPanel.SetActive(isShowBuildPanel);
@@ -150,5 +168,10 @@ public class UIManager : Singleton<UIManager>
         currentTween?.Complete();
         currentTween?.Kill();
         currentTween = uiImage.DOFillAmount(0, imageOffSpeed).SetEase(Ease.Linear);
+    }
+
+    public void SetTopUIText(TopUI topUI, int value)
+    {
+        topUIText[(int)topUI].text = value.ToString();
     }
 }

@@ -49,10 +49,12 @@ public class InteractableObject : Outline, IInteractable
         {
             case UIType.tree:
                 gameObject.SetActive(false);
+                GameManager.topUICount[TopUI.wood] += 5;
                 Debug.Log("tree 제거");
                 break;
             case UIType.stone:
                 gameObject.SetActive(false);
+                GameManager.topUICount[TopUI.stone] += 3;
                 Debug.Log("stone 제거");
                 break;
             case UIType.waterTank:
@@ -60,6 +62,18 @@ public class InteractableObject : Outline, IInteractable
                 break;
             case UIType.lightHouse:
                 Debug.Log("등대 작동");
+                break;
+            case UIType.food:
+                gameObject.SetActive(false);
+                Debug.Log("음식 얻음");
+                GameManager.topUICount[TopUI.food] += 2;
+                break;
+            case UIType.chest:
+                gameObject.SetActive(false);
+                Debug.Log("상자를 열음");
+                GameManager.topUICount[TopUI.wood] += 10;
+                GameManager.topUICount[TopUI.stone] += 10;
+                GameManager.topUICount[TopUI.food] += 10;
                 break;
             case UIType.none:
                 Debug.Log("none 클릭");
