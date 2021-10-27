@@ -9,6 +9,7 @@ public class GameManager : Singleton<GameManager>
     public float gameStartTime = 3f;
 
     public IInteractable currentInteractable;
+    public Vector3 currentInteractablePosition;
     public GameObject buildObject = null;
 
     private WaitForSeconds ws = new WaitForSeconds(3f);
@@ -20,6 +21,14 @@ public class GameManager : Singleton<GameManager>
     private Coroutine currentCoroutine = null;
 
     public bool isSpeedUp = false;
+
+    private PlayerMove playerMove;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        playerMove = FindObjectOfType<PlayerMove>();
+    }
 
     private void Start()
     {
@@ -76,6 +85,22 @@ public class GameManager : Singleton<GameManager>
             {
                 UIManager.Instance.ChangeWarming(TopUI.food, true);
             }
+        }
+    }
+
+    public void PlayerMove(Action playerEvent, bool isLock = false)
+    {
+        if (!playerMove.playerEventLock)
+        {
+            if (isLock)
+            {
+                playerMove.playerEventLock = true;
+                playerEvent += () => playerMove.playerEventLock = false;
+            }
+
+            playerMove.TargetPosition = currentInteractablePosition;
+            playerMove.playerEvent = playerEvent;
+            playerMove.Event();
         }
     }
 }

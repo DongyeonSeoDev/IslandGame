@@ -75,9 +75,18 @@ public class CameraManager : MonoBehaviour
 
             if (GameManager.Instance.buildObject != null)
             {
-                GameManager.Instance.buildObject.GetComponent<Collider>().enabled = true;
-                GameManager.Instance.buildObject.GetComponent<InteractableObject>().enabled = true;
+                GameObject eventObject = GameManager.Instance.buildObject;
                 GameManager.Instance.buildObject = null;
+
+                eventObject.SetActive(false);
+                GameManager.Instance.currentInteractablePosition = eventObject.transform.position;
+
+                GameManager.Instance.PlayerMove(() =>
+                {
+                    eventObject.SetActive(true);
+                    eventObject.GetComponent<Collider>().enabled = true;
+                    eventObject.GetComponent<InteractableObject>().enabled = true;
+                }, true);
             }
         }
 

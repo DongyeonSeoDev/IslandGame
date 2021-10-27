@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -32,6 +33,15 @@ public class PlayerMove : MonoBehaviour
     private bool isDie = false;
     private bool isStart = false;
 
+    public bool playerEventLock = false;
+
+    public Action playerEvent = () =>
+    {
+
+    };
+
+    public bool isEvent = false;
+
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -61,6 +71,25 @@ public class PlayerMove : MonoBehaviour
         }
 
         animator.SetFloat(hashSpeed, agent.velocity.sqrMagnitude);
+
+        if (isEvent)
+        {
+            if (agent.velocity.sqrMagnitude <= 0)
+            {
+                playerEvent();
+                isEvent = false;
+            }
+        }
+    }
+
+    public void Event()
+    {
+        Invoke("EventStart", 0.1f);
+    }
+
+    public void EventStart()
+    {
+        isEvent = true;
     }
 
     private void IsDie()
