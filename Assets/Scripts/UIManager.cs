@@ -29,6 +29,7 @@ public class UIManager : Singleton<UIManager>
 
     [SerializeField] private Button[] buttons = null;
     [SerializeField] private Sprite[] uiSprites = null;
+    [SerializeField] private Sprite noneUISprite = null;
 
     [SerializeField] private CanvasGroup mainCanvas = null;
     [SerializeField] private GameObject buildPanel = null;
@@ -45,7 +46,11 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] private Sprite[] normalSprites;
     [SerializeField] private Sprite[] speedUpSprites;
 
-    private float[] warningTime = new float[5];
+    [SerializeField] private Sprite[] farmFieldUI;
+    [SerializeField] private Sprite stoneUI;
+    [SerializeField] private Sprite treeUI;
+
+    private float[] warningTime = new float[6];
 
     private bool isShowBuildPanel = false;
 
@@ -151,6 +156,13 @@ public class UIManager : Singleton<UIManager>
                 isShortage = true;
             }
 
+            if (GameManager.topUICount[TopUI.electricity] < 20)
+            {
+                ChangeWarming(TopUI.electricity, true);
+                warningTime[(int)TopUI.electricity] = 0;
+                isShortage = true;
+            }
+
             if (isShortage)
             {
                 return;
@@ -161,9 +173,72 @@ public class UIManager : Singleton<UIManager>
             GameManager.topUICount[TopUI.wood] -= 15;
             GameManager.topUICount[TopUI.stone] -= 5;
             GameManager.topUICount[TopUI.iron] -= 1;
+            GameManager.topUICount[TopUI.electricity] -= 20;
 
             //다른 클래스로 옳기기
             GameManager.Instance.buildObject = Instantiate(buildObject[1]);
+        });
+
+        buildButton[2].onClick.AddListener(() =>
+        {
+            BuildButtonChange();
+
+            if (GameManager.topUICount[TopUI.wood] < 5)
+            {
+                ChangeWarming(TopUI.wood, true);
+                warningTime[(int)TopUI.wood] = 0;
+                return;
+            }
+
+            Debug.Log("설치");
+
+            GameManager.topUICount[TopUI.wood] -= 5;
+
+            //다른 클래스로 옳기기
+            GameManager.Instance.buildObject = Instantiate(buildObject[2]);
+        });
+
+        buildButton[3].onClick.AddListener(() =>
+        {
+            bool isShortage = false;
+
+            BuildButtonChange();
+
+            if (GameManager.topUICount[TopUI.wood] < 10)
+            {
+                ChangeWarming(TopUI.wood, true);
+                warningTime[(int)TopUI.wood] = 0;
+                isShortage = true;
+            }
+
+            if (GameManager.topUICount[TopUI.stone] < 5)
+            {
+                ChangeWarming(TopUI.stone, true);
+                warningTime[(int)TopUI.stone] = 0;
+                isShortage = true;
+            }
+
+            if (GameManager.topUICount[TopUI.iron] < 2)
+            {
+                ChangeWarming(TopUI.iron, true);
+                warningTime[(int)TopUI.iron] = 0;
+                isShortage = true;
+            }
+
+            if (isShortage)
+            {
+                return;
+            }
+
+            Debug.Log("설치");
+
+            GameManager.topUICount[TopUI.wood] -= 10;
+            GameManager.topUICount[TopUI.stone] -= 5;
+            GameManager.topUICount[TopUI.iron] -= 2;
+
+            //다른 클래스로 옳기기
+            GameManager.Instance.buildObject = Instantiate(buildObject[3]);
+            GameManager.Instance.isSunPower = true;
         });
 
         normalButton.onClick.AddListener(() =>
@@ -262,7 +337,38 @@ public class UIManager : Singleton<UIManager>
 
     public void OnUI(UIType uiType)
     {
-        uiImage.sprite = uiSprites[(int)uiType];
+        if (uiType == UIType.sunPower && GameManager.Instance.currentInteractable.GetUseSunPower())
+        {
+            uiImage.sprite = noneUISprite;
+        }
+        else if (uiType == UIType.farmField && !GameManager.Instance.currentInteractable.GetSeed())
+        {
+            uiImage.sprite = farmFieldUI[0];
+        }
+        else if (uiType == UIType.farmField && GameManager.Instance.currentInteractable.GetComplete())
+        {
+            uiImage.sprite = farmFieldUI[2];
+        }
+        else if (uiType == UIType.farmField && !GameManager.Instance.currentInteractable.GetWater())
+        {
+            uiImage.sprite = farmFieldUI[1];
+        }
+        else if (uiType == UIType.farmField && GameManager.Instance.currentInteractable.GetSeed() && GameManager.Instance.currentInteractable.GetWater())
+        {
+            uiImage.sprite = noneUISprite;
+        }
+        else if(uiType == UIType.stone && GameManager.Instance.currentInteractable.GetStone())
+        {
+            uiImage.sprite = stoneUI;
+        }
+        else if(uiType == UIType.tree && GameManager.Instance.currentInteractable.GetTree())
+        {
+            uiImage.sprite = treeUI;
+        }
+        else
+        {
+            uiImage.sprite = uiSprites[(int)uiType];
+        }
 
         Invoke("StartOnUI", buttonClickDelay);
     }

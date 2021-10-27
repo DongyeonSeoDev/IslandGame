@@ -24,6 +24,8 @@ public class GameManager : Singleton<GameManager>
 
     private PlayerMove playerMove;
 
+    public bool isSunPower = false;
+
     protected override void Awake()
     {
         base.Awake();

@@ -4,5 +4,6 @@ public enum TopUI
     stone,
     iron,
     food,
-    water
+    water,
+    electricity
 }

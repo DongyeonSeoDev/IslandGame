@@ -8,5 +8,6 @@ public enum UIType
     chest,
     farmField,
     iron,
+    sunPower,
     none
 }

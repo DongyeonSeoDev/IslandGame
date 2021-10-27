@@ -124,7 +124,14 @@ public class CameraManager : MonoBehaviour
 
         if (GameManager.Instance.buildObject != null)
         {
-            GameManager.Instance.buildObject.transform.position = hit.point;
+            if (GameManager.Instance.isSunPower)
+            {
+                GameManager.Instance.buildObject.transform.position = hit.point + new Vector3(0f, 1f, 0f);
+            }
+            else
+            {
+                GameManager.Instance.buildObject.transform.position = hit.point;
+            }
         }
 
         return interactable;

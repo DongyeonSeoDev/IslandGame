@@ -6,6 +6,22 @@ public class InteractableObject : Outline, IInteractable
 
     public UIType uiType = UIType.none;
 
+    private bool isUseSunPower = false;
+
+    public GameObject seed;
+    public GameObject tomato;
+    public Material material;
+    public Material currentMaterial;
+
+    private int waterCount = 0;
+
+    public bool isFarmFieldSeed = false;
+    public bool isFarmFieldWater = false;
+    public bool isFarmFieldComplete = false;
+
+    public bool isStone = true;
+    public bool isTree = true;
+
     public void EnterFocus()
     {
         if (!focus)
@@ -42,9 +58,18 @@ public class InteractableObject : Outline, IInteractable
         switch (uiType)
         {
             case UIType.farmField:
+                if (isFarmFieldSeed)
+                {
+                    return;
+                }
                 GameManager.Instance.PlayerMove(() =>
                 {
-                    Debug.Log("¾¾¾Ñ");
+                    if (!isFarmFieldSeed)
+                    {
+                        Debug.Log("¾¾¾Ñ");
+                        seed.SetActive(true);
+                        isFarmFieldSeed = true;
+                    }
                 });
                 break;
         }
@@ -112,10 +137,32 @@ public class InteractableObject : Outline, IInteractable
                 });
                 break;
             case UIType.farmField:
+                if (!isFarmFieldComplete)
+                {
+                    return;
+                }
+
                 GameManager.Instance.PlayerMove(() =>
                 {
+                    if (!isFarmFieldComplete)
+                    {
+                        return;
+                    }
+
                     Debug.Log("Ã¤Áý");
+
                     GameManager.topUICount[TopUI.food] += 5;
+                    seed.SetActive(false);
+                    tomato.SetActive(false);
+
+                    isFarmFieldComplete = false;
+                    isFarmFieldSeed = false;
+                    isFarmFieldWater = false;
+
+                    MeshRenderer mesh = GetComponent<MeshRenderer>();
+                    mesh.material = currentMaterial;
+                    waterCount = 0;
+
                     if (GameManager.topUICount[TopUI.food] >= 4)
                     {
                         UIManager.Instance.ChangeWarming(TopUI.food, false);
@@ -128,6 +175,23 @@ public class InteractableObject : Outline, IInteractable
                     gameObject.SetActive(false);
                     GameManager.topUICount[TopUI.iron] += 1;
                     Debug.Log("iron Á¦°Å");
+                });
+                break;
+            case UIType.sunPower:
+
+                if (isUseSunPower)
+                {
+                    break;
+                }
+
+                GameManager.Instance.PlayerMove(() =>
+                {
+                    if (!isUseSunPower)
+                    {
+                        GameManager.topUICount[TopUI.electricity] += 20;
+                        isUseSunPower = true;
+                        Debug.Log("Àü±â¸¦ ¾ò¾î¿È");
+                    }
                 });
                 break;
             case UIType.none:
@@ -144,16 +208,130 @@ public class InteractableObject : Outline, IInteractable
         switch (uiType)
         {
             case UIType.farmField:
+                if (isFarmFieldWater || GameManager.topUICount[TopUI.water] < 21)
+                {
+                    return;
+                }
+
                 GameManager.Instance.PlayerMove(() =>
                 {
+                    if (isFarmFieldWater)
+                    {
+                        return;
+                    }
+
+                    MeshRenderer mesh = GetComponent<MeshRenderer>();
+                    currentMaterial = mesh.material;
+                    mesh.material = material;
+                    isFarmFieldWater = true;
+
+                    waterCount++;
+                    GameManager.topUICount[TopUI.water] -= 3;
+
+                    if (waterCount >= 2)
+                    {
+                        isFarmFieldComplete = true;
+                        tomato.SetActive(true);
+                    }
+                    else
+                    {
+                        Invoke("ChangeWater", 30);
+                    }
+
                     Debug.Log("¹°");
+                });
+                break;
+            case UIType.tree:
+                if (!isTree)
+                {
+                    return;
+                }
+
+                GameManager.Instance.PlayerMove(() =>
+                {
+                    if (!isTree)
+                    {
+                        return;
+                    }
+
+                    isTree = false;
+
+                    GameManager.topUICount[TopUI.wood] += 1;
+                    Invoke("Wood", 30f);
+                });
+                break;
+            case UIType.stone:
+                if (!isStone)
+                {
+                    return;
+                }
+
+                GameManager.Instance.PlayerMove(() =>
+                {
+                    if (!isStone)
+                    {
+                        return;
+                    }
+
+                    isStone = false;
+
+                    GameManager.topUICount[TopUI.stone] += 1;
+                    Invoke("Stone", 30f);
                 });
                 break;
         }
     }
 
+    private void Wood()
+    {
+        isTree = true;
+    }
+
+    private void Stone()
+    {
+        isStone = true;
+    }
+
+    private void ChangeWater()
+    {
+        isFarmFieldWater = false;
+
+        MeshRenderer mesh = GetComponent<MeshRenderer>();
+        mesh.material = currentMaterial;
+    }
+
     public void LeftButtonClick()
     {
         Debug.Log("´ÝÈû");
+    }
+
+    public bool GetUseSunPower()
+    {
+        return isUseSunPower;
+    }
+
+    public bool GetSeed()
+    {
+        return isFarmFieldSeed;
+    }
+
+    public bool GetWater()
+    {
+        return isFarmFieldWater;
+    }
+
+    public bool GetComplete()
+    {
+        return isFarmFieldComplete;
+    }
+
+    public bool GetStone()
+    {
+        return isStone;
+    }
+
+    public bool GetTree()
+    {
+        return isTree;
     }
 }
