@@ -54,6 +54,10 @@ public class UIManager : Singleton<UIManager>
 
     private bool isShowBuildPanel = false;
 
+    private bool showBoat = false;
+    public GameObject boatPanel = null;
+    public GameObject clearPanel = null;
+
     private void Start()
     {
         uiImage = ui.GetComponent<Image>();
@@ -421,5 +425,56 @@ public class UIManager : Singleton<UIManager>
     public void SetTopUIText(TopUI topUI, int value)
     {
         topUIText[(int)topUI].text = value.ToString();
+    }
+
+    public void ShowBoat()
+    {
+        showBoat = !showBoat;
+        boatPanel.SetActive(showBoat);
+    }
+
+    public void Click()
+    {
+        bool isShortage = false;
+
+        if (GameManager.topUICount[TopUI.wood] < 10)
+        {
+            ChangeWarming(TopUI.wood, true);
+            warningTime[(int)TopUI.wood] = 0;
+            isShortage = true;
+        }
+
+        if (GameManager.topUICount[TopUI.stone] < 10)
+        {
+            ChangeWarming(TopUI.stone, true);
+            warningTime[(int)TopUI.stone] = 0;
+            isShortage = true;
+        }
+
+        if (GameManager.topUICount[TopUI.iron] < 10)
+        {
+            ChangeWarming(TopUI.iron, true);
+            warningTime[(int)TopUI.iron] = 0;
+            isShortage = true;
+        }
+
+        Debug.Log(GameManager.Instance.isLight);
+
+        if (isShortage || !GameManager.Instance.isLight)
+        {
+            return;
+        }
+
+        Debug.Log("고침");
+
+        GameManager.topUICount[TopUI.wood] -= 10;
+        GameManager.topUICount[TopUI.stone] -= 10;
+        GameManager.topUICount[TopUI.iron] -= 10;
+
+        //다른 클래스로 옳기기
+        GameManager.Instance.buildObject = Instantiate(buildObject[3]);
+        GameManager.Instance.isSunPower = true;
+
+        clearPanel.SetActive(true);
     }
 }

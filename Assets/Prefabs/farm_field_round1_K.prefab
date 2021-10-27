@@ -204,7 +204,13 @@ MonoBehaviour:
   uiType: 6
   seed: {fileID: 332771482}
   tomato: {fileID: 1934159256}
-  material: {fileID: 0}
+  material: {fileID: 2100000, guid: a4b70e1d4507d544b8a6c7ba63f24ffd, type: 2}
+  currentMaterial: {fileID: 0}
+  isFarmFieldSeed: 0
+  isFarmFieldWater: 0
+  isFarmFieldComplete: 0
+  isStone: 0
+  isTree: 0
 --- !u!1001 &26692537
 PrefabInstance:
   m_ObjectHideFlags: 0

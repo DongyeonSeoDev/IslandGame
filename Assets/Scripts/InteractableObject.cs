@@ -106,6 +106,7 @@ public class InteractableObject : Outline, IInteractable
             case UIType.lightHouse:
                 GameManager.Instance.PlayerMove(() =>
                 {
+                    GameManager.Instance.isLight = true;
                     Debug.Log("등대 작동");
                 });
                 break;
@@ -208,7 +209,7 @@ public class InteractableObject : Outline, IInteractable
         switch (uiType)
         {
             case UIType.farmField:
-                if (isFarmFieldWater || GameManager.topUICount[TopUI.water] < 21)
+                if (isFarmFieldWater || !isFarmFieldSeed || GameManager.topUICount[TopUI.water] < 21)
                 {
                     return;
                 }
