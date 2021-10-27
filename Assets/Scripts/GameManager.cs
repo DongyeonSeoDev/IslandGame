@@ -66,7 +66,7 @@ public class GameManager : Singleton<GameManager>
                     Debug.Log("물 때문에 게임 오버");
 
                     topUICount[TopUI.water] = 0;
-                    gameOverEvent();
+                    GameOver();
                 }
 
                 if (topUICount[TopUI.water] < 21)
@@ -82,7 +82,7 @@ public class GameManager : Singleton<GameManager>
                 Debug.Log("음식 때문에 게임 오버");
 
                 topUICount[TopUI.food] = 0;
-                gameOverEvent();
+                GameOver();
             }
 
             if (topUICount[TopUI.food] < 4)
@@ -106,5 +106,10 @@ public class GameManager : Singleton<GameManager>
             playerMove.playerEvent = playerEvent;
             playerMove.Event();
         }
+    }
+
+    public void GameOver()
+    {
+        gameOverEvent();
     }
 }
