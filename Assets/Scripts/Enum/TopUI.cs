@@ -2,5 +2,7 @@ public enum TopUI
 {
     wood,
     stone,
-    food
+    iron,
+    food,
+    water
 }

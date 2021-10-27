@@ -6,5 +6,7 @@ public enum UIType
     lightHouse,
     food,
     chest,
+    farmField,
+    iron,
     none
 }

@@ -1,6 +1,6 @@
 public class TopUICount
 {
-    private int[] topUICount = new int[3];
+    private int[] topUICount = new int[5];
 
     public int this[TopUI index]
     {

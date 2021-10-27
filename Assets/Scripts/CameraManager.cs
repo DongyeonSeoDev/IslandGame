@@ -45,6 +45,11 @@ public class CameraManager : MonoBehaviour
         mainCam = Camera.main;
 
         Invoke("GameStart", GameManager.Instance.gameStartTime + cameraStartTime);
+
+        GameManager.Instance.gameOverEvent += () =>
+        {
+            gameStart = false;
+        };
     }
 
     private void GameStart()

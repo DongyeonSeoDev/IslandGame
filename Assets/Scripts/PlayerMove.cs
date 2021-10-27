@@ -46,6 +46,11 @@ public class PlayerMove : MonoBehaviour
         agent.isStopped = true;
 
         Invoke("StartAnimation", GameManager.Instance.gameStartTime);
+
+        GameManager.Instance.gameOverEvent += () =>
+        {
+            IsDie();
+        };
     }
 
     private void Update()
