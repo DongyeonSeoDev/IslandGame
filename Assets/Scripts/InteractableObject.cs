@@ -195,6 +195,16 @@ public class InteractableObject : Outline, IInteractable
                     }
                 });
                 break;
+            case UIType.raft:
+
+                RaftMove raftMove = GetComponent<RaftMove>();
+
+                GameManager.Instance.PlayerMove(() =>
+                {
+                    raftMove.Move();
+                    Debug.Log("이동");
+                });
+                break;
             case UIType.none:
                 Debug.Log("none 클릭");
                 break;

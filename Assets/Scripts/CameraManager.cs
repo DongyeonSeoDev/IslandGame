@@ -81,12 +81,27 @@ public class CameraManager : MonoBehaviour
                 eventObject.SetActive(false);
                 GameManager.Instance.currentInteractablePosition = eventObject.transform.position;
 
-                GameManager.Instance.PlayerMove(() =>
+                if (!GameManager.Instance.isBoat)
                 {
-                    eventObject.SetActive(true);
-                    eventObject.GetComponent<Collider>().enabled = true;
-                    eventObject.GetComponent<InteractableObject>().enabled = true;
-                }, true);
+                    GameManager.Instance.PlayerMove(() =>
+                    {
+                        eventObject.SetActive(true);
+                        eventObject.GetComponent<Collider>().enabled = true;
+                        eventObject.GetComponent<InteractableObject>().enabled = true;
+                    }, true);
+                }
+                else
+                {
+                    GameManager.Instance.PlayerMove(() =>
+                    {
+                        eventObject.SetActive(true);
+                        eventObject.GetComponentInChildren<Collider>().enabled = true;
+                        eventObject.GetComponentInChildren<InteractableObject>().enabled = true;
+                    }, true);
+                }
+
+                GameManager.Instance.isSunPower = false;
+                GameManager.Instance.isBoat = false;
             }
         }
 

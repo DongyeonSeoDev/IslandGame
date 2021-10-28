@@ -25,6 +25,7 @@ public class GameManager : Singleton<GameManager>
     private PlayerMove playerMove;
 
     public bool isSunPower = false;
+    public bool isBoat = false;
 
     public bool isLight = false;
 

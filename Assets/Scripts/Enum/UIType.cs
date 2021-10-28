@@ -9,5 +9,6 @@ public enum UIType
     farmField,
     iron,
     sunPower,
+    raft,
     none
 }

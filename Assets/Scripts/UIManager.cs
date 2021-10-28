@@ -245,6 +245,26 @@ public class UIManager : Singleton<UIManager>
             GameManager.Instance.isSunPower = true;
         });
 
+        buildButton[4].onClick.AddListener(() =>
+        {
+            BuildButtonChange();
+
+            if (GameManager.topUICount[TopUI.wood] < 10)
+            {
+                ChangeWarming(TopUI.wood, true);
+                warningTime[(int)TopUI.wood] = 0;
+                return;
+            }
+
+            Debug.Log("설치");
+
+            GameManager.topUICount[TopUI.wood] -= 10;
+
+            //다른 클래스로 옳기기
+            GameManager.Instance.buildObject = Instantiate(buildObject[4]);
+            GameManager.Instance.isBoat = true;
+        });
+
         normalButton.onClick.AddListener(() =>
         {
             if (GameManager.Instance.isSpeedUp)
@@ -470,10 +490,6 @@ public class UIManager : Singleton<UIManager>
         GameManager.topUICount[TopUI.wood] -= 10;
         GameManager.topUICount[TopUI.stone] -= 10;
         GameManager.topUICount[TopUI.iron] -= 10;
-
-        //다른 클래스로 옳기기
-        GameManager.Instance.buildObject = Instantiate(buildObject[3]);
-        GameManager.Instance.isSunPower = true;
 
         clearPanel.SetActive(true);
     }
