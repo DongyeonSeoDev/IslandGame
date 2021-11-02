@@ -152,7 +152,7 @@ public class InteractableObject : Outline, IInteractable
 
                     Debug.Log("Ã¤Áý");
 
-                    GameManager.topUICount[TopUI.food] += 5;
+                    GameManager.topUICount[TopUI.food] += (int)(5 * ResearchManager.Instance.farmValue);
                     seed.SetActive(false);
                     tomato.SetActive(false);
 

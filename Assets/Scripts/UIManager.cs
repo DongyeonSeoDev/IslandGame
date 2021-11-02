@@ -193,6 +193,10 @@ public class UIManager : Singleton<UIManager>
                 warningTime[(int)TopUI.wood] = 0;
                 return;
             }
+            else if (!ResearchManager.Instance.farmable)
+            {
+                return;
+            }
 
             Debug.Log("¼³Ä¡");
 
@@ -492,5 +496,10 @@ public class UIManager : Singleton<UIManager>
         GameManager.topUICount[TopUI.iron] -= 10;
 
         clearPanel.SetActive(true);
+    }
+
+    public static void ChangeUI(CanvasGroup ui, float speed, bool isShow, Action endAction)
+    {
+        ui.DOFade(isShow ? 1 : 0, speed).OnComplete(() => endAction());
     }
 }
