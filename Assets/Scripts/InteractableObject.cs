@@ -88,6 +88,12 @@ public class InteractableObject : Outline, IInteractable
                 });
                 break;
             case UIType.stone:
+
+                if (!ResearchManager.Instance.stoneAble)
+                {
+                    return;
+                }
+
                 GameManager.Instance.PlayerMove(() =>
                 {
                     gameObject.SetActiveAndBake(false);
@@ -171,6 +177,12 @@ public class InteractableObject : Outline, IInteractable
                 });
                 break;
             case UIType.iron:
+
+                if (!ResearchManager.Instance.ironAble)
+                {
+                    return;
+                }
+
                 GameManager.Instance.PlayerMove(() =>
                 {
                     gameObject.SetActiveAndBake(false);
