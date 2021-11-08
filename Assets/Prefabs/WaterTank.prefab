@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1551574209814219618}
   - component: {fileID: 1551574209818327810}
   - component: {fileID: 7718232381141854292}
+  - component: {fileID: 5210271833074423403}
   m_Layer: 0
   m_Name: WaterTank
   m_TagString: Untagged
@@ -1726,3 +1727,28 @@ MonoBehaviour:
     - {x: -0.0037301295, y: 0.9130481, z: 0.40783474}
     - {x: -0.0027257795, y: 0.66747457, z: 0.7446276}
   uiType: 2
+  seed: {fileID: 0}
+  tomato: {fileID: 0}
+  material: {fileID: 0}
+  currentMaterial: {fileID: 0}
+  isFarmFieldSeed: 0
+  isFarmFieldWater: 0
+  isFarmFieldComplete: 0
+  isStone: 1
+  isTree: 1
+--- !u!114 &5210271833074423403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1551574209812026786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff

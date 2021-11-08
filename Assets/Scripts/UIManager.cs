@@ -11,6 +11,7 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] private RectTransform ui = null;
 
     private Image uiImage = null;
+    private CanvasGroup uiCanvasGroup = null;
 
     [SerializeField] private Vector2 limitMaxPosition = Vector2.zero;
     [SerializeField] private Vector2 limitMinPosition = Vector2.zero;
@@ -61,6 +62,7 @@ public class UIManager : Singleton<UIManager>
     private void Start()
     {
         uiImage = ui.GetComponent<Image>();
+        uiCanvasGroup = ui.GetComponent<CanvasGroup>();
 
         Invoke("FadeIn", delayTime);
 
@@ -414,6 +416,10 @@ public class UIManager : Singleton<UIManager>
 
         currentTween?.Complete();
         currentTween?.Kill();
+
+        uiCanvasGroup.interactable = true;
+        uiCanvasGroup.blocksRaycasts = true;
+
         currentTween = uiImage.DOFillAmount(1, imageOnSpeed).SetEase(Ease.Linear);
     }
 
@@ -443,7 +449,11 @@ public class UIManager : Singleton<UIManager>
 
         currentTween?.Complete();
         currentTween?.Kill();
-        currentTween = uiImage.DOFillAmount(0, imageOffSpeed).SetEase(Ease.Linear);
+        currentTween = uiImage.DOFillAmount(0, imageOffSpeed).SetEase(Ease.Linear).OnComplete(() =>
+        {
+            uiCanvasGroup.interactable = false;
+            uiCanvasGroup.blocksRaycasts = false;
+        });
     }
 
     public void SetTopUIText(TopUI topUI, int value)

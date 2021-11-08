@@ -97,6 +97,7 @@ GameObject:
   - component: {fileID: 172695041751710655}
   - component: {fileID: 1559402811894425405}
   - component: {fileID: 1559402811894425404}
+  - component: {fileID: 8214735219579842208}
   m_Layer: 0
   m_Name: farm_field_round1_K
   m_TagString: Untagged
@@ -211,6 +212,22 @@ MonoBehaviour:
   isFarmFieldComplete: 0
   isStone: 0
   isTree: 0
+--- !u!114 &8214735219579842208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1829997782350125674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1001 &26692537
 PrefabInstance:
   m_ObjectHideFlags: 0

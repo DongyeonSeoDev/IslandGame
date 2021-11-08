@@ -14,6 +14,8 @@ public class PlayerMove : MonoBehaviour
     private readonly int hashGetUp = Animator.StringToHash("getUp");
     private readonly int hashIsDie = Animator.StringToHash("isDie");
 
+    private Vector3 gizmosPosition;
+
     private Vector3 targetPosition = Vector3.zero;
     public Vector3 TargetPosition
     {
@@ -25,6 +27,10 @@ public class PlayerMove : MonoBehaviour
         set
         {
             targetPosition = value;
+            //targetPosition -= transform.forward;
+            targetPosition.y = transform.position.y;
+
+            gizmosPosition = targetPosition;
 
             agent.SetDestination(targetPosition);
         }
@@ -34,6 +40,7 @@ public class PlayerMove : MonoBehaviour
     private bool isStart = false;
 
     public bool playerEventLock = false;
+    public bool isAgentCheck = true;
 
     public Action playerEvent = () =>
     {
@@ -72,23 +79,26 @@ public class PlayerMove : MonoBehaviour
 
         animator.SetFloat(hashSpeed, agent.velocity.sqrMagnitude);
 
-        if (isEvent)
+        if (isEvent && !agent.pathPending && agent.remainingDistance <= 1f)
         {
-            if (agent.velocity.sqrMagnitude <= 0)
+            playerEvent();
+            isEvent = false;
+
+            if (isAgentCheck)
             {
-                playerEvent();
-                isEvent = false;
+                TargetPosition = transform.position;
             }
+        }
+
+        if (!isEvent && !agent.pathPending && agent.velocity.magnitude > 0)
+        {
+            TargetPosition = transform.position;
         }
     }
 
-    public void Event()
+    public void Event(Vector3 position)
     {
-        Invoke("EventStart", 0.1f);
-    }
-
-    public void EventStart()
-    {
+        TargetPosition = position;
         isEvent = true;
     }
 
@@ -112,5 +122,10 @@ public class PlayerMove : MonoBehaviour
         agent.isStopped = false;
 
         TargetPosition = transform.position;
+    }
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawSphere(gizmosPosition, 0.5f);
     }
 }

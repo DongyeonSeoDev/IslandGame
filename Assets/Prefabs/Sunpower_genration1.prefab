@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2231000694883305721}
   - component: {fileID: 664156623359038587}
   - component: {fileID: 664156623359038584}
+  - component: {fileID: -8298728925754750456}
   m_Layer: 0
   m_Name: Sunpower_genration1
   m_TagString: Untagged
@@ -116,3 +117,28 @@ MonoBehaviour:
   bakeKeys: []
   bakeValues: []
   uiType: 8
+  seed: {fileID: 0}
+  tomato: {fileID: 0}
+  material: {fileID: 0}
+  currentMaterial: {fileID: 0}
+  isFarmFieldSeed: 0
+  isFarmFieldWater: 0
+  isFarmFieldComplete: 0
+  isStone: 1
+  isTree: 1
+--- !u!114 &-8298728925754750456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 429785076499540268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff

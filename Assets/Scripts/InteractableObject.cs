@@ -82,7 +82,7 @@ public class InteractableObject : Outline, IInteractable
             case UIType.tree:
                 GameManager.Instance.PlayerMove(() =>
                 {
-                    gameObject.SetActive(false);
+                    gameObject.SetActiveAndBake(false);
                     GameManager.topUICount[TopUI.wood] += 5;
                     Debug.Log("tree 제거");
                 });
@@ -90,7 +90,7 @@ public class InteractableObject : Outline, IInteractable
             case UIType.stone:
                 GameManager.Instance.PlayerMove(() =>
                 {
-                    gameObject.SetActive(false);
+                    gameObject.SetActiveAndBake(false);
                     GameManager.topUICount[TopUI.stone] += 3;
                     Debug.Log("stone 제거");
                 });
@@ -113,7 +113,7 @@ public class InteractableObject : Outline, IInteractable
             case UIType.food:
                 GameManager.Instance.PlayerMove(() =>
                 {
-                    gameObject.SetActive(false);
+                    gameObject.SetActiveAndBake(false);
                     Debug.Log("음식 얻음");
                     GameManager.topUICount[TopUI.food] += 2;
                     if (GameManager.topUICount[TopUI.food] >= 4)
@@ -125,7 +125,7 @@ public class InteractableObject : Outline, IInteractable
             case UIType.chest:
                 GameManager.Instance.PlayerMove(() =>
                 {
-                    gameObject.SetActive(false);
+                    gameObject.SetActiveAndBake(false);
                     Debug.Log("상자를 열음");
                     GameManager.topUICount[TopUI.wood] += 10;
                     GameManager.topUICount[TopUI.stone] += 10;
@@ -173,7 +173,7 @@ public class InteractableObject : Outline, IInteractable
             case UIType.iron:
                 GameManager.Instance.PlayerMove(() =>
                 {
-                    gameObject.SetActive(false);
+                    gameObject.SetActiveAndBake(false);
                     GameManager.topUICount[TopUI.iron] += 1;
                     Debug.Log("iron 제거");
                 });
@@ -203,7 +203,7 @@ public class InteractableObject : Outline, IInteractable
                 {
                     raftMove.Move();
                     Debug.Log("이동");
-                });
+                }, false, null, false);
                 break;
             case UIType.none:
                 Debug.Log("none 클릭");

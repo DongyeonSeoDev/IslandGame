@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.EventSystems;
 
 public class CameraManager : MonoBehaviour
 {
@@ -56,6 +57,8 @@ public class CameraManager : MonoBehaviour
     {
         mainCam.DOFieldOfView(targetFieldOfView, cameraActionTime).SetEase(Ease.Linear).OnComplete(() =>
         {
+            lastMousePosition = Input.mousePosition;
+            lastRotationMousePosition = Input.mousePosition;
             gameStart = true;
         });
     }
@@ -79,25 +82,24 @@ public class CameraManager : MonoBehaviour
                 GameManager.Instance.buildObject = null;
 
                 eventObject.SetActive(false);
-                GameManager.Instance.currentInteractablePosition = eventObject.transform.position;
 
                 if (!GameManager.Instance.isBoat)
                 {
                     GameManager.Instance.PlayerMove(() =>
                     {
-                        eventObject.SetActive(true);
                         eventObject.GetComponent<Collider>().enabled = true;
                         eventObject.GetComponent<InteractableObject>().enabled = true;
-                    }, true);
+                        eventObject.SetActiveAndBake(true);
+                    }, true, eventObject.transform.position);
                 }
                 else
                 {
                     GameManager.Instance.PlayerMove(() =>
                     {
-                        eventObject.SetActive(true);
                         eventObject.GetComponentInChildren<Collider>().enabled = true;
                         eventObject.GetComponentInChildren<InteractableObject>().enabled = true;
-                    }, true);
+                        eventObject.SetActiveAndBake(true);
+                    }, true, eventObject.transform.position);
                 }
 
                 GameManager.Instance.isSunPower = false;
@@ -107,8 +109,9 @@ public class CameraManager : MonoBehaviour
 
         if (Input.GetMouseButtonDown(1))
         {
-            lastMousePosition = Input.mousePosition;
             UIManager.Instance.OffUI();
+
+            lastMousePosition = Input.mousePosition;
         }
 
         if (Input.GetMouseButton(1))
@@ -118,8 +121,9 @@ public class CameraManager : MonoBehaviour
 
         if (Input.GetMouseButtonDown(2))
         {
-            lastRotationMousePosition = Input.mousePosition;
             UIManager.Instance.OffUI();
+
+            lastRotationMousePosition = Input.mousePosition;
         }
 
         if (Input.GetMouseButton(2))
@@ -131,9 +135,14 @@ public class CameraManager : MonoBehaviour
         FocusCheck();
     }
 
-    private IInteractable CheckInteractableObject()
+    private IInteractable CheckInteractableObject(bool isClick = false)
     {
         var ray = mainCam.ScreenPointToRay(Input.mousePosition);
+
+        if (EventSystem.current.IsPointerOverGameObject())
+        {
+            return null;
+        }
 
         IInteractable interactable = Physics.Raycast(ray, out var hit) ? hit.collider.GetComponent<IInteractable>() : null;
 
@@ -149,6 +158,14 @@ public class CameraManager : MonoBehaviour
             }
         }
 
+        if (isClick)
+        {
+            GameManager.Instance.PlayerMove(() =>
+            {
+
+            }, false, hit.point);
+        }
+
         return interactable;
     }
 
@@ -156,7 +173,7 @@ public class CameraManager : MonoBehaviour
     {
         UIManager.Instance.OffUI();
 
-        var interactable = CheckInteractableObject();
+        var interactable = CheckInteractableObject(true);
 
         if (!(interactable is null))
         {
@@ -224,12 +241,12 @@ public class CameraManager : MonoBehaviour
     {
         var interactable = CheckInteractableObject();
 
-        if (!(lastInteractable is null) && lastInteractable != interactable)
+        if (lastInteractable != null && lastInteractable != interactable)
         {
             lastInteractable.ExitFocus();
         }
 
-        if (!(interactable is null))
+        if (interactable != null)
         {
             interactable.EnterFocus();
         }

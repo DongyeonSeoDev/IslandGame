@@ -93,7 +93,7 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-    public void PlayerMove(Action playerEvent, bool isLock = false)
+    public void PlayerMove(Action playerEvent, bool isLock = false, Vector3? targetPosition = null, bool isAgentCheck = true)
     {
         if (!playerMove.playerEventLock)
         {
@@ -103,9 +103,15 @@ public class GameManager : Singleton<GameManager>
                 playerEvent += () => playerMove.playerEventLock = false;
             }
 
-            playerMove.TargetPosition = currentInteractablePosition;
+            if (targetPosition == null)
+            {
+                targetPosition = currentInteractablePosition;
+            }
+
             playerMove.playerEvent = playerEvent;
-            playerMove.Event();
+            playerMove.isAgentCheck = isAgentCheck;
+
+            playerMove.Event((Vector3)targetPosition);
         }
     }
 
