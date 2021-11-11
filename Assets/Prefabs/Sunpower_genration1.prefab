@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 1062066193310200726}
   - component: {fileID: 4112608920830983219}
   - component: {fileID: 2231000694883305721}
-  - component: {fileID: 664156623359038587}
   - component: {fileID: 664156623359038584}
-  - component: {fileID: -8298728925754750456}
+  - component: {fileID: 4032536355548092280}
+  - component: {fileID: 5313691545691218243}
   m_Layer: 0
   m_Name: Sunpower_genration1
   m_TagString: Untagged
@@ -84,20 +84,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &664156623359038587
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 429785076499540268}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 5060444177187149915, guid: a89127d23cef3004ab8640f925ca2b0b, type: 3}
 --- !u!114 &664156623359038584
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -126,19 +112,32 @@ MonoBehaviour:
   isFarmFieldComplete: 0
   isStone: 1
   isTree: 1
---- !u!114 &-8298728925754750456
-MonoBehaviour:
+--- !u!65 &4032536355548092280
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 429785076499540268}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 2.385674, y: 1.500001, z: 1.4841224}
+  m_Center: {x: 0.1928363, y: 0.0000000711606, z: -0.69206107}
+--- !u!208 &5313691545691218243
+NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 429785076499540268}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_OverrideArea: 1
-  m_Area: 1
-  m_IgnoreFromBuild: 0
-  m_AffectedAgents: ffffffff
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1.25, y: 0.85, z: 0.85}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.193, y: 0, z: -0.69200003}
+  m_TimeToStationary: 0.5

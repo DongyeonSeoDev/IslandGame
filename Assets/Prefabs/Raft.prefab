@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 4990368238454427235}
   - component: {fileID: 4990368238454427247}
   - component: {fileID: 4990368238454427246}
-  - component: {fileID: 4990368238454427245}
   - component: {fileID: 4990368238454427244}
   - component: {fileID: 8074483465399845493}
+  - component: {fileID: 4990368238454427245}
+  - component: {fileID: 1209833198051405016}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -84,19 +85,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &4990368238454427245
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4990368238454427234}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &4990368238454427244
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -141,6 +129,35 @@ MonoBehaviour:
   playerObject: {fileID: 6226172024290496161}
   targetPosition: {x: 22.80099, y: 0.02, z: -16.99506}
   targetPlayerPosition: {x: 27.1, y: 0.845, z: -16.3}
+--- !u!65 &4990368238454427245
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4990368238454427234}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!208 &1209833198051405016
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4990368238454427234}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.505, y: 0.505, z: 0.505}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &5296286663838190158
 GameObject:
   m_ObjectHideFlags: 0
@@ -151,7 +168,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4813186936439476468}
   - component: {fileID: 847554017558808304}
-  - component: {fileID: 5166586568275975568}
   m_Layer: 0
   m_Name: Raft
   m_TagString: Untagged
@@ -194,22 +210,6 @@ MonoBehaviour:
   WaveRotations: {x: 0, y: 0, z: 0}
   WaveRotationsSpeed: 0.3
   AxisOffsetSpeed: {x: 0, y: 0, z: 0}
---- !u!114 &5166586568275975568
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5296286663838190158}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_OverrideArea: 1
-  m_Area: 1
-  m_IgnoreFromBuild: 0
-  m_AffectedAgents: ffffffff
 --- !u!1 &6223984194600687097
 GameObject:
   m_ObjectHideFlags: 0

@@ -89,7 +89,7 @@ public class CameraManager : MonoBehaviour
                     {
                         eventObject.GetComponent<Collider>().enabled = true;
                         eventObject.GetComponent<InteractableObject>().enabled = true;
-                        eventObject.SetActiveAndBake(true);
+                        eventObject.SetActive(true);
                     }, true, eventObject.transform.position);
                 }
                 else
@@ -98,7 +98,7 @@ public class CameraManager : MonoBehaviour
                     {
                         eventObject.GetComponentInChildren<Collider>().enabled = true;
                         eventObject.GetComponentInChildren<InteractableObject>().enabled = true;
-                        eventObject.SetActiveAndBake(true);
+                        eventObject.SetActive(true);
                     }, true, eventObject.transform.position);
                 }
 

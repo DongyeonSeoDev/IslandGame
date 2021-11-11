@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 5416455394134268068}
   - component: {fileID: 8972515087345522433}
   - component: {fileID: 6584317248830235595}
-  - component: {fileID: 5521874967627576666}
   - component: {fileID: 5521874967627576667}
-  - component: {fileID: 6683277024590306639}
+  - component: {fileID: 5521874967627576666}
+  - component: {fileID: 1118358533917069222}
   m_Layer: 0
   m_Name: Lighthouse
   m_TagString: Untagged
@@ -84,20 +84,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &5521874967627576666
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4638933940159070750}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  m_Radius: 0.49518937
-  m_Height: 3.5368052
-  m_Direction: 2
-  m_Center: {x: 0.0052142614, y: -3.1387365e-15, z: 1.6930368}
 --- !u!114 &5521874967627576667
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -584,19 +570,33 @@ MonoBehaviour:
   isFarmFieldComplete: 0
   isStone: 1
   isTree: 1
---- !u!114 &6683277024590306639
-MonoBehaviour:
+--- !u!136 &5521874967627576666
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4638933940159070750}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  m_Radius: 0.49518937
+  m_Height: 3.5368052
+  m_Direction: 2
+  m_Center: {x: 0.0052142614, y: -3.1387365e-15, z: 1.6930368}
+--- !u!208 &1118358533917069222
+NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4638933940159070750}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_OverrideArea: 1
-  m_Area: 1
-  m_IgnoreFromBuild: 0
-  m_AffectedAgents: ffffffff
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.56600004, y: 0.56600004, z: 1.7310001}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 1.7310001}
+  m_TimeToStationary: 0.5

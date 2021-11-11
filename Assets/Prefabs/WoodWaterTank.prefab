@@ -171,9 +171,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8645148672561853220}
-  - component: {fileID: 8102826290278585549}
   - component: {fileID: 8102826290278585546}
-  - component: {fileID: 8102826290278585547}
+  - component: {fileID: 8102826290278585549}
+  - component: {fileID: 4435717289171895822}
   m_Layer: 0
   m_Name: WoodWaterTank
   m_TagString: Untagged
@@ -197,19 +197,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
---- !u!65 &8102826290278585549
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8985363252058614174}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1.9647774, z: 1}
-  m_Center: {x: -0, y: 0.97166616, z: -0}
 --- !u!114 &8102826290278585546
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -238,19 +225,32 @@ MonoBehaviour:
   isFarmFieldComplete: 0
   isStone: 1
   isTree: 1
---- !u!114 &8102826290278585547
-MonoBehaviour:
+--- !u!65 &8102826290278585549
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8985363252058614174}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1.9647774, z: 1}
+  m_Center: {x: -0, y: 0.97166616, z: -0}
+--- !u!208 &4435717289171895822
+NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8985363252058614174}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_OverrideArea: 1
-  m_Area: 1
-  m_IgnoreFromBuild: 0
-  m_AffectedAgents: ffffffff
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.55, y: 1.025, z: 0.55}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0.9716662, z: 0}
+  m_TimeToStationary: 0.5

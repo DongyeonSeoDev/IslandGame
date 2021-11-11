@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 13603938}
   - component: {fileID: 1877718356}
   - component: {fileID: 5393577513525228679}
+  - component: {fileID: 3183710558420328397}
   m_Layer: 0
   m_Name: Tree_a
   m_TagString: Untagged
@@ -86,7 +87,7 @@ MeshRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
+  m_SelectedEditorRenderState: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -540,6 +541,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 10, y: 2.05, z: 10}
   m_Center: {x: -0.36054683, y: 11.68, z: -0.8764899}
+--- !u!208 &3183710558420328397
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 105710}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 0
+  m_Extents: {x: 3, y: 6.4230003, z: 3}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.36100003, y: 6.4230003, z: -0.87600005}
+  m_TimeToStationary: 0.5
 --- !u!21 &2119156
 Material:
   serializedVersion: 6
