@@ -414,9 +414,13 @@ public class UIManager : Singleton<UIManager>
         {
             case UIType.sunPower:
 
-                if (uiType == UIType.sunPower && GameManager.Instance.currentInteractable.GetUseSunPower())
+                if (GameManager.Instance.currentInteractable.GetUseSunPower())
                 {
                     uiImage.sprite = noneUISprite;
+                }
+                else
+                {
+                    DefaultSprite(uiType);
                 }
 
                 break;

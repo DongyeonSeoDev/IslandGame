@@ -81,25 +81,36 @@ public class CameraManager : MonoBehaviour
                 GameObject eventObject = GameManager.Instance.buildObject;
                 GameManager.Instance.buildObject = null;
 
-                eventObject.SetActive(false);
+                InteractableObject eventInteractableObject = null;
 
                 if (!GameManager.Instance.isBoat)
                 {
+                    eventInteractableObject = eventObject.GetComponent<InteractableObject>();
+
+                    eventInteractableObject.enabled = true;
+
                     GameManager.Instance.PlayerMove(() =>
                     {
                         eventObject.GetComponent<Collider>().enabled = true;
-                        eventObject.GetComponent<InteractableObject>().enabled = true;
                         eventObject.SetActive(true);
-                    }, true, eventObject.transform.position);
+                    }, true, eventInteractableObject.GetWalkPosition());
+
+                    eventObject.SetActive(false);
                 }
                 else
                 {
+                    eventInteractableObject = eventObject.GetComponentInChildren<InteractableObject>();
+
+                    eventInteractableObject.enabled = true;
+
                     GameManager.Instance.PlayerMove(() =>
                     {
                         eventObject.GetComponentInChildren<Collider>().enabled = true;
-                        eventObject.GetComponentInChildren<InteractableObject>().enabled = true;
+                        eventObject.GetComponent<WaterFloat>().enabled = true;
                         eventObject.SetActive(true);
-                    }, true, eventObject.transform.position);
+                    }, true, eventInteractableObject.GetWalkPosition());
+
+                    eventObject.SetActive(false);
                 }
 
                 GameManager.Instance.isSunPower = false;
@@ -146,7 +157,7 @@ public class CameraManager : MonoBehaviour
 
         IInteractable interactable = Physics.Raycast(ray, out var hit) ? hit.collider.GetComponent<IInteractable>() : null;
 
-        if (GameManager.Instance.buildObject != null)
+        if (GameManager.Instance.buildObject != null && interactable == null)
         {
             if (GameManager.Instance.isSunPower)
             {
@@ -163,7 +174,7 @@ public class CameraManager : MonoBehaviour
             GameManager.Instance.PlayerMove(() =>
             {
 
-            }, false, hit.point);
+            }, false, interactable == null ? hit.point : interactable.GetWalkPosition());
         }
 
         return interactable;

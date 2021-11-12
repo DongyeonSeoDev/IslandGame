@@ -9,6 +9,7 @@ public interface IInteractable
     public void DownButtonClick();
     public void RightButtonClick();
     public void LeftButtonClick();
+    public Vector3 GetWalkPosition();
     //TODO
     public bool GetUseSunPower();
     public bool GetSeed();

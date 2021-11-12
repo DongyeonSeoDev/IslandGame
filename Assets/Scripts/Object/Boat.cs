@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Boat : Outline, IInteractable
 {
+    [SerializeField] private Transform walkTransform;
+
     private bool focus = false;
 
     public void DownButtonClick()
@@ -58,6 +60,11 @@ public class Boat : Outline, IInteractable
         return true;
     }
 
+    public Vector3 GetWalkPosition()
+    {
+        return walkTransform.transform.position;
+    }
+
     public bool GetWater()
     {
         return true;
@@ -65,7 +72,12 @@ public class Boat : Outline, IInteractable
 
     public void Interact()
     {
-        UIManager.Instance.ShowBoat();
+        GameManager.Instance.currentInteractablePosition = GetWalkPosition();
+
+        GameManager.Instance.PlayerMove(() =>
+        {
+            UIManager.Instance.ShowBoat();
+        });
     }
 
     public void LeftButtonClick()

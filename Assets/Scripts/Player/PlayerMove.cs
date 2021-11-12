@@ -27,9 +27,6 @@ public class PlayerMove : MonoBehaviour
         set
         {
             targetPosition = value;
-            //targetPosition -= transform.forward;
-            targetPosition.y = transform.position.y;
-
             gizmosPosition = targetPosition;
 
             agent.SetDestination(targetPosition);

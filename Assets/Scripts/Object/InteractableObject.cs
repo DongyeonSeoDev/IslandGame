@@ -2,6 +2,10 @@ using UnityEngine;
 
 public class InteractableObject : Outline, IInteractable
 {
+    private PlayerMove playerMove = null;
+
+    [SerializeField] private Transform walkTransform;
+
     private bool focus = false;
 
     public UIType uiType = UIType.none;
@@ -21,6 +25,13 @@ public class InteractableObject : Outline, IInteractable
 
     public bool isStone = true;
     public bool isTree = true;
+
+    protected override void Awake()
+    {
+        base.Awake();
+
+        playerMove = FindObjectOfType<PlayerMove>();
+    }
 
     public void EnterFocus()
     {
@@ -48,7 +59,7 @@ public class InteractableObject : Outline, IInteractable
     {
         Debug.Log(gameObject.name + "를 클릭했습니다.");
 
-        GameManager.Instance.currentInteractablePosition = transform.position;
+        GameManager.Instance.currentInteractablePosition = GetWalkPosition();
 
         UIManager.Instance.OnUI(uiType);
     }
@@ -356,5 +367,10 @@ public class InteractableObject : Outline, IInteractable
     public bool GetTree()
     {
         return isTree;
+    }
+
+    public Vector3 GetWalkPosition()
+    {
+        return walkTransform.position - (Quaternion.FromToRotation(transform.position, playerMove.transform.position) * Vector3.one);
     }
 }
