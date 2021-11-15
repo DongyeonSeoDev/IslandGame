@@ -94,7 +94,7 @@ public class InteractableObject : Outline, IInteractable
                 GameManager.Instance.PlayerMove(() =>
                 {
                     gameObject.SetActive(false);
-                    GameManager.topUICount[TopUI.wood] += 5;
+                    InventoryManager.AddItem(InventoryItem.Tree, 5);
                     Debug.Log("tree 제거");
                 });
                 break;
@@ -108,7 +108,7 @@ public class InteractableObject : Outline, IInteractable
                 GameManager.Instance.PlayerMove(() =>
                 {
                     gameObject.SetActive(false);
-                    GameManager.topUICount[TopUI.stone] += 3;
+                    InventoryManager.AddItem(InventoryItem.Stone, 3);
                     Debug.Log("stone 제거");
                 });
                 break;
@@ -116,7 +116,6 @@ public class InteractableObject : Outline, IInteractable
                 GameManager.Instance.PlayerMove(() =>
                 {
                     GameManager.topUICount[TopUI.water] = 100;
-                    UIManager.Instance.ChangeWarming(TopUI.water, false);
                     Debug.Log("물 충전");
                 });
                 break;
@@ -133,10 +132,6 @@ public class InteractableObject : Outline, IInteractable
                     gameObject.SetActive(false);
                     Debug.Log("음식 얻음");
                     GameManager.topUICount[TopUI.food] += 2;
-                    if (GameManager.topUICount[TopUI.food] >= 4)
-                    {
-                        UIManager.Instance.ChangeWarming(TopUI.food, false);
-                    }
                 });
                 break;
             case UIType.chest:
@@ -144,14 +139,10 @@ public class InteractableObject : Outline, IInteractable
                 {
                     gameObject.SetActive(false);
                     Debug.Log("상자를 열음");
-                    GameManager.topUICount[TopUI.wood] += 10;
-                    GameManager.topUICount[TopUI.stone] += 10;
+                    InventoryManager.AddItem(InventoryItem.Tree, 10);
+                    InventoryManager.AddItem(InventoryItem.Stone, 10);
+                    InventoryManager.AddItem(InventoryItem.Iron, 5);
                     GameManager.topUICount[TopUI.food] += 10;
-                    GameManager.topUICount[TopUI.iron] += 5;
-                    if (GameManager.topUICount[TopUI.food] >= 4)
-                    {
-                        UIManager.Instance.ChangeWarming(TopUI.food, false);
-                    }
                 });
                 break;
             case UIType.farmField:
@@ -180,11 +171,6 @@ public class InteractableObject : Outline, IInteractable
                     MeshRenderer mesh = GetComponent<MeshRenderer>();
                     mesh.material = currentMaterial;
                     waterCount = 0;
-
-                    if (GameManager.topUICount[TopUI.food] >= 4)
-                    {
-                        UIManager.Instance.ChangeWarming(TopUI.food, false);
-                    }
                 });
                 break;
             case UIType.iron:
@@ -197,7 +183,7 @@ public class InteractableObject : Outline, IInteractable
                 GameManager.Instance.PlayerMove(() =>
                 {
                     gameObject.SetActive(false);
-                    GameManager.topUICount[TopUI.iron] += 1;
+                    InventoryManager.AddItem(InventoryItem.Iron, 1);
                     Debug.Log("iron 제거");
                 });
                 break;
@@ -290,7 +276,7 @@ public class InteractableObject : Outline, IInteractable
 
                     isTree = false;
 
-                    GameManager.topUICount[TopUI.wood] += 1;
+                    InventoryManager.AddItem(InventoryItem.Tree, 1);
                     Invoke("Wood", 30f);
                 });
                 break;
@@ -309,7 +295,7 @@ public class InteractableObject : Outline, IInteractable
 
                     isStone = false;
 
-                    GameManager.topUICount[TopUI.stone] += 1;
+                    InventoryManager.AddItem(InventoryItem.Stone, 1);
                     Invoke("Stone", 30f);
                 });
                 break;

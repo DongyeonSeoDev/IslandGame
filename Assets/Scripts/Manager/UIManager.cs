@@ -40,7 +40,6 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] private Button[] buildButton = null;
     [SerializeField] private GameObject[] buildObject = null;
     [SerializeField] private Text[] topUIText;
-    [SerializeField] private GameObject[] warning;
 
     [SerializeField] private Button normalButton;
     [SerializeField] private Button speedUpButton;
@@ -96,41 +95,20 @@ public class UIManager : Singleton<UIManager>
 
         buildButton[0].onClick.AddListener(() =>
         {
-            bool isShortage = false;
-
             BuildButtonChange();
 
-            if (GameManager.topUICount[TopUI.wood] < 10)
-            {
-                ChangeWarming(TopUI.wood, true);
-                warningTime[(int)TopUI.wood] = 0;
-                isShortage = true;
-            }
-
-            if (GameManager.topUICount[TopUI.stone] < 5)
-            {
-                ChangeWarming(TopUI.stone, true);
-                warningTime[(int)TopUI.stone] = 0;
-                isShortage = true;
-            }
-
-            if (GameManager.topUICount[TopUI.iron] < 2)
-            {
-                ChangeWarming(TopUI.iron, true);
-                warningTime[(int)TopUI.iron] = 0;
-                isShortage = true;
-            }
-
-            if (isShortage)
+            if (InventoryManager.GetItemCount(InventoryItem.Tree) < 10
+            || InventoryManager.GetItemCount(InventoryItem.Stone) < 5
+            || InventoryManager.GetItemCount(InventoryItem.Iron) < 2)
             {
                 return;
             }
 
             Debug.Log("설치");
 
-            GameManager.topUICount[TopUI.wood] -= 10;
-            GameManager.topUICount[TopUI.stone] -= 5;
-            GameManager.topUICount[TopUI.iron] -= 2;
+            InventoryManager.UseItem(InventoryItem.Tree, 10);
+            InventoryManager.UseItem(InventoryItem.Stone, 5);
+            InventoryManager.UseItem(InventoryItem.Iron, 2);
 
             //다른 클래스로 옳기기
             GameManager.Instance.buildObject = Instantiate(buildObject[0]);
@@ -138,48 +116,21 @@ public class UIManager : Singleton<UIManager>
 
         buildButton[1].onClick.AddListener(() =>
         {
-            bool isShortage = false;
-
             BuildButtonChange();
 
-            if (GameManager.topUICount[TopUI.wood] < 15)
-            {
-                ChangeWarming(TopUI.wood, true);
-                warningTime[(int)TopUI.wood] = 0;
-                isShortage = true;
-            }
-
-            if (GameManager.topUICount[TopUI.stone] < 5)
-            {
-                ChangeWarming(TopUI.stone, true);
-                warningTime[(int)TopUI.stone] = 0;
-                isShortage = true;
-            }
-
-            if (GameManager.topUICount[TopUI.iron] < 1)
-            {
-                ChangeWarming(TopUI.iron, true);
-                warningTime[(int)TopUI.iron] = 0;
-                isShortage = true;
-            }
-
-            if (GameManager.topUICount[TopUI.electricity] < 20)
-            {
-                ChangeWarming(TopUI.electricity, true);
-                warningTime[(int)TopUI.electricity] = 0;
-                isShortage = true;
-            }
-
-            if (isShortage)
+            if (InventoryManager.GetItemCount(InventoryItem.Tree) < 15 
+            || InventoryManager.GetItemCount(InventoryItem.Stone) < 5
+            || InventoryManager.GetItemCount(InventoryItem.Iron) < 1
+            || GameManager.topUICount[TopUI.electricity] < 20)
             {
                 return;
             }
 
             Debug.Log("설치");
 
-            GameManager.topUICount[TopUI.wood] -= 15;
-            GameManager.topUICount[TopUI.stone] -= 5;
-            GameManager.topUICount[TopUI.iron] -= 1;
+            InventoryManager.UseItem(InventoryItem.Tree, 15);
+            InventoryManager.UseItem(InventoryItem.Stone, 5);
+            InventoryManager.UseItem(InventoryItem.Iron, 1);
             GameManager.topUICount[TopUI.electricity] -= 20;
 
             //다른 클래스로 옳기기
@@ -190,20 +141,12 @@ public class UIManager : Singleton<UIManager>
         {
             BuildButtonChange();
 
-            if (GameManager.topUICount[TopUI.wood] < 5)
-            {
-                ChangeWarming(TopUI.wood, true);
-                warningTime[(int)TopUI.wood] = 0;
-                return;
-            }
-            else if (!ResearchManager.Instance.farmAble)
+            if (!InventoryManager.UseItem(InventoryItem.Tree, 5))
             {
                 return;
             }
 
             Debug.Log("설치");
-
-            GameManager.topUICount[TopUI.wood] -= 5;
 
             //다른 클래스로 옳기기
             GameManager.Instance.buildObject = Instantiate(buildObject[2]);
@@ -211,41 +154,21 @@ public class UIManager : Singleton<UIManager>
 
         buildButton[3].onClick.AddListener(() =>
         {
-            bool isShortage = false;
-
             BuildButtonChange();
 
-            if (GameManager.topUICount[TopUI.wood] < 10)
-            {
-                ChangeWarming(TopUI.wood, true);
-                warningTime[(int)TopUI.wood] = 0;
-                isShortage = true;
-            }
-
-            if (GameManager.topUICount[TopUI.stone] < 5)
-            {
-                ChangeWarming(TopUI.stone, true);
-                warningTime[(int)TopUI.stone] = 0;
-                isShortage = true;
-            }
-
-            if (GameManager.topUICount[TopUI.iron] < 2)
-            {
-                ChangeWarming(TopUI.iron, true);
-                warningTime[(int)TopUI.iron] = 0;
-                isShortage = true;
-            }
-
-            if (isShortage)
+            if (InventoryManager.GetItemCount(InventoryItem.Tree) < 10
+            || InventoryManager.GetItemCount(InventoryItem.Stone) < 5
+            || InventoryManager.GetItemCount(InventoryItem.Iron) < 2
+            || GameManager.topUICount[TopUI.electricity] < 20)
             {
                 return;
             }
 
             Debug.Log("설치");
 
-            GameManager.topUICount[TopUI.wood] -= 10;
-            GameManager.topUICount[TopUI.stone] -= 5;
-            GameManager.topUICount[TopUI.iron] -= 2;
+            InventoryManager.UseItem(InventoryItem.Tree, 10);
+            InventoryManager.UseItem(InventoryItem.Stone, 5);
+            InventoryManager.UseItem(InventoryItem.Iron, 2);
 
             //다른 클래스로 옳기기
             GameManager.Instance.buildObject = Instantiate(buildObject[3]);
@@ -256,16 +179,12 @@ public class UIManager : Singleton<UIManager>
         {
             BuildButtonChange();
 
-            if (GameManager.topUICount[TopUI.wood] < 10)
+            if (!InventoryManager.UseItem(InventoryItem.Tree, 10))
             {
-                ChangeWarming(TopUI.wood, true);
-                warningTime[(int)TopUI.wood] = 0;
                 return;
             }
 
             Debug.Log("설치");
-
-            GameManager.topUICount[TopUI.wood] -= 10;
 
             //다른 클래스로 옳기기
             GameManager.Instance.buildObject = Instantiate(buildObject[4]);
@@ -274,41 +193,21 @@ public class UIManager : Singleton<UIManager>
 
         buildButton[5].onClick.AddListener(() =>
         {
-            bool isShortage = false;
-
             BuildButtonChange();
 
-            if (GameManager.topUICount[TopUI.wood] < 15)
-            {
-                ChangeWarming(TopUI.wood, true);
-                warningTime[(int)TopUI.wood] = 0;
-                isShortage = true;
-            }
-
-            if (GameManager.topUICount[TopUI.stone] < 5)
-            {
-                ChangeWarming(TopUI.stone, true);
-                warningTime[(int)TopUI.stone] = 0;
-                isShortage = true;
-            }
-
-            if (GameManager.topUICount[TopUI.iron] < 1)
-            {
-                ChangeWarming(TopUI.iron, true);
-                warningTime[(int)TopUI.iron] = 0;
-                isShortage = true;
-            }
-
-            if (isShortage)
+            if (InventoryManager.GetItemCount(InventoryItem.Tree) < 15
+            || InventoryManager.GetItemCount(InventoryItem.Stone) < 5
+            || InventoryManager.GetItemCount(InventoryItem.Iron) < 1
+            || GameManager.topUICount[TopUI.electricity] < 20)
             {
                 return;
             }
 
             Debug.Log("설치");
 
-            GameManager.topUICount[TopUI.wood] -= 15;
-            GameManager.topUICount[TopUI.stone] -= 5;
-            GameManager.topUICount[TopUI.iron] -= 1;
+            InventoryManager.UseItem(InventoryItem.Tree, 15);
+            InventoryManager.UseItem(InventoryItem.Stone, 5);
+            InventoryManager.UseItem(InventoryItem.Iron, 1);
 
             //다른 클래스로 옳기기
             GameManager.Instance.buildObject = Instantiate(buildObject[5]);
@@ -340,35 +239,6 @@ public class UIManager : Singleton<UIManager>
         {
             Invoke("FadeOut", delayTime);
         };
-    }
-
-    //이 코드도 수정
-    private void Update()
-    {
-        for (int i = 0; i < warningTime.Length; i++)
-        {
-            if (warningTime[i] >= 0)
-            {
-                warningTime[i] += Time.deltaTime;
-
-                if (warningTime[i] >= 5)
-                {
-                    warningTime[i] = -1;
-                    ChangeWarming((TopUI)i, false);
-                }
-            }
-        }
-    }
-
-    //이 코드도 수정
-    public void ChangeWarming(TopUI topUI, bool value)
-    {
-        if (warning[(int)topUI].activeSelf == value)
-        {
-            return;
-        }
-
-        warning[(int)topUI].SetActive(value);
     }
 
     private void BuildButtonChange()
@@ -568,41 +438,20 @@ public class UIManager : Singleton<UIManager>
 
     public void Click()
     {
-        bool isShortage = false;
-
-        if (GameManager.topUICount[TopUI.wood] < 10)
-        {
-            ChangeWarming(TopUI.wood, true);
-            warningTime[(int)TopUI.wood] = 0;
-            isShortage = true;
-        }
-
-        if (GameManager.topUICount[TopUI.stone] < 10)
-        {
-            ChangeWarming(TopUI.stone, true);
-            warningTime[(int)TopUI.stone] = 0;
-            isShortage = true;
-        }
-
-        if (GameManager.topUICount[TopUI.iron] < 10)
-        {
-            ChangeWarming(TopUI.iron, true);
-            warningTime[(int)TopUI.iron] = 0;
-            isShortage = true;
-        }
-
-        Debug.Log(GameManager.Instance.isLight);
-
-        if (isShortage || !GameManager.Instance.isLight)
+        if (InventoryManager.GetItemCount(InventoryItem.Tree) < 10
+            || InventoryManager.GetItemCount(InventoryItem.Stone) < 10
+            || InventoryManager.GetItemCount(InventoryItem.Iron) < 10
+            || GameManager.topUICount[TopUI.electricity] < 20
+            || !GameManager.Instance.isLight)
         {
             return;
         }
 
         Debug.Log("고침");
 
-        GameManager.topUICount[TopUI.wood] -= 10;
-        GameManager.topUICount[TopUI.stone] -= 10;
-        GameManager.topUICount[TopUI.iron] -= 10;
+        InventoryManager.UseItem(InventoryItem.Tree, 10);
+        InventoryManager.UseItem(InventoryItem.Stone, 10);
+        InventoryManager.UseItem(InventoryItem.Iron, 10);
 
         clearPanel.SetActive(true);
     }

@@ -69,11 +69,6 @@ public class GameManager : Singleton<GameManager>
                     topUICount[TopUI.water] = 0;
                     GameOver();
                 }
-
-                if (topUICount[TopUI.water] < 21)
-                {
-                    UIManager.Instance.ChangeWarming(TopUI.water, true);
-                }
             }
 
             topUICount[TopUI.food] -= 1;
@@ -84,11 +79,6 @@ public class GameManager : Singleton<GameManager>
 
                 topUICount[TopUI.food] = 0;
                 GameOver();
-            }
-
-            if (topUICount[TopUI.food] < 4)
-            {
-                UIManager.Instance.ChangeWarming(TopUI.food, true);
             }
         }
     }
