@@ -1,11 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-
 public class InventoryManager : Singleton<InventoryManager>
 {
     public Item[] items;
+    public InventoryUI inventoryUI;
 
     public static int GetItemCount(InventoryItem item)
     {
@@ -15,7 +11,7 @@ public class InventoryManager : Singleton<InventoryManager>
     public static void AddItem(InventoryItem item, int count)
     {
         Instance.items[(int)item].count += count;
-        Instance.items[(int)item].countText.text = Instance.items[(int)item].count.ToString();
+        Instance.inventoryUI.SetText(Instance.items[(int)item]);
     }
 
     public static bool UseItem(InventoryItem item, int count)
@@ -23,7 +19,7 @@ public class InventoryManager : Singleton<InventoryManager>
         if (Instance.items[(int)item].count >= count)
         {
             Instance.items[(int)item].count -= count;
-            Instance.items[(int)item].countText.text = Instance.items[(int)item].count.ToString();
+            Instance.inventoryUI.SetText(Instance.items[(int)item]);
 
             return true;
         }

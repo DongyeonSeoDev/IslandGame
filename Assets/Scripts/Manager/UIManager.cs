@@ -22,23 +22,16 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] private float fadeTime = 0f;
     [SerializeField] private float imageOnSpeed = 0f;
     [SerializeField] private float imageOffSpeed = 0f;
-    [SerializeField] private float buttonClickDelay = 0.1f;
 
     private Tween currentTween = null;
-
-    private bool isOnUI = false;
 
     [SerializeField] private Button[] buttons = null;
     [SerializeField] private Sprite[] uiSprites = null;
     [SerializeField] private Sprite noneUISprite = null;
 
     [SerializeField] private CanvasGroup mainCanvas = null;
-    [SerializeField] private GameObject buildPanel = null;
-    [SerializeField] private Button buildPanelButton = null;
     [SerializeField] private float mainCanvasTime = 0f;
 
-    [SerializeField] private Button[] buildButton = null;
-    [SerializeField] private GameObject[] buildObject = null;
     [SerializeField] private Text[] topUIText;
 
     [SerializeField] private Button normalButton;
@@ -51,10 +44,6 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] private Sprite stoneUI2;
     [SerializeField] private Sprite treeUI;
 
-    private float[] warningTime = new float[6];
-
-    private bool isShowBuildPanel = false;
-
     private bool showBoat = false;
     public GameObject boatPanel = null;
     public GameObject clearPanel = null;
@@ -65,8 +54,6 @@ public class UIManager : Singleton<UIManager>
         uiCanvasGroup = ui.GetComponent<CanvasGroup>();
 
         Invoke("FadeIn", delayTime);
-
-        Array.ForEach(warningTime, x => x = -1);
 
         buttons[0].onClick.AddListener(() =>
         {
@@ -86,131 +73,6 @@ public class UIManager : Singleton<UIManager>
         buttons[3].onClick.AddListener(() =>
         {
             GameManager.Instance?.currentInteractable?.LeftButtonClick();
-        });
-
-        buildPanelButton.onClick.AddListener(() =>
-        {
-            BuildButtonChange();
-        });
-
-        buildButton[0].onClick.AddListener(() =>
-        {
-            BuildButtonChange();
-
-            if (InventoryManager.GetItemCount(InventoryItem.Tree) < 10
-            || InventoryManager.GetItemCount(InventoryItem.Stone) < 5
-            || InventoryManager.GetItemCount(InventoryItem.Iron) < 2)
-            {
-                return;
-            }
-
-            Debug.Log("설치");
-
-            InventoryManager.UseItem(InventoryItem.Tree, 10);
-            InventoryManager.UseItem(InventoryItem.Stone, 5);
-            InventoryManager.UseItem(InventoryItem.Iron, 2);
-
-            //다른 클래스로 옳기기
-            GameManager.Instance.buildObject = Instantiate(buildObject[0]);
-        });
-
-        buildButton[1].onClick.AddListener(() =>
-        {
-            BuildButtonChange();
-
-            if (InventoryManager.GetItemCount(InventoryItem.Tree) < 15 
-            || InventoryManager.GetItemCount(InventoryItem.Stone) < 5
-            || InventoryManager.GetItemCount(InventoryItem.Iron) < 1
-            || GameManager.topUICount[TopUI.electricity] < 20)
-            {
-                return;
-            }
-
-            Debug.Log("설치");
-
-            InventoryManager.UseItem(InventoryItem.Tree, 15);
-            InventoryManager.UseItem(InventoryItem.Stone, 5);
-            InventoryManager.UseItem(InventoryItem.Iron, 1);
-            GameManager.topUICount[TopUI.electricity] -= 20;
-
-            //다른 클래스로 옳기기
-            GameManager.Instance.buildObject = Instantiate(buildObject[1]);
-        });
-
-        buildButton[2].onClick.AddListener(() =>
-        {
-            BuildButtonChange();
-
-            if (!InventoryManager.UseItem(InventoryItem.Tree, 5))
-            {
-                return;
-            }
-
-            Debug.Log("설치");
-
-            //다른 클래스로 옳기기
-            GameManager.Instance.buildObject = Instantiate(buildObject[2]);
-        });
-
-        buildButton[3].onClick.AddListener(() =>
-        {
-            BuildButtonChange();
-
-            if (InventoryManager.GetItemCount(InventoryItem.Tree) < 10
-            || InventoryManager.GetItemCount(InventoryItem.Stone) < 5
-            || InventoryManager.GetItemCount(InventoryItem.Iron) < 2
-            || GameManager.topUICount[TopUI.electricity] < 20)
-            {
-                return;
-            }
-
-            Debug.Log("설치");
-
-            InventoryManager.UseItem(InventoryItem.Tree, 10);
-            InventoryManager.UseItem(InventoryItem.Stone, 5);
-            InventoryManager.UseItem(InventoryItem.Iron, 2);
-
-            //다른 클래스로 옳기기
-            GameManager.Instance.buildObject = Instantiate(buildObject[3]);
-            GameManager.Instance.isSunPower = true;
-        });
-
-        buildButton[4].onClick.AddListener(() =>
-        {
-            BuildButtonChange();
-
-            if (!InventoryManager.UseItem(InventoryItem.Tree, 10))
-            {
-                return;
-            }
-
-            Debug.Log("설치");
-
-            //다른 클래스로 옳기기
-            GameManager.Instance.buildObject = Instantiate(buildObject[4]);
-            GameManager.Instance.isBoat = true;
-        });
-
-        buildButton[5].onClick.AddListener(() =>
-        {
-            BuildButtonChange();
-
-            if (InventoryManager.GetItemCount(InventoryItem.Tree) < 15
-            || InventoryManager.GetItemCount(InventoryItem.Stone) < 5
-            || InventoryManager.GetItemCount(InventoryItem.Iron) < 1
-            || GameManager.topUICount[TopUI.electricity] < 20)
-            {
-                return;
-            }
-
-            Debug.Log("설치");
-
-            InventoryManager.UseItem(InventoryItem.Tree, 15);
-            InventoryManager.UseItem(InventoryItem.Stone, 5);
-            InventoryManager.UseItem(InventoryItem.Iron, 1);
-
-            //다른 클래스로 옳기기
-            GameManager.Instance.buildObject = Instantiate(buildObject[5]);
         });
 
         normalButton.onClick.AddListener(() =>
@@ -239,12 +101,6 @@ public class UIManager : Singleton<UIManager>
         {
             Invoke("FadeOut", delayTime);
         };
-    }
-
-    private void BuildButtonChange()
-    {
-        isShowBuildPanel = !isShowBuildPanel;
-        buildPanel.SetActive(isShowBuildPanel);
     }
 
     private void FadeIn()
@@ -278,7 +134,7 @@ public class UIManager : Singleton<UIManager>
         });
     }
 
-    public void OnUI(UIType uiType)
+    public void OnUI(UIType uiType) // 이미지 정하기
     {
         switch (uiType)
         {
@@ -364,7 +220,7 @@ public class UIManager : Singleton<UIManager>
                 break;
         }
 
-        Invoke("StartOnUI", buttonClickDelay);
+        StartOnUI();
     }
 
     private void DefaultSprite(UIType uiType)
@@ -372,16 +228,9 @@ public class UIManager : Singleton<UIManager>
         uiImage.sprite = uiSprites[(int)uiType];
     }
 
-    private void StartOnUI()
+    private void StartOnUI() // 이미지 보여주기
     {
-        if (isOnUI)
-        {
-            return;
-        }
-
         MoveUI();
-
-        isOnUI = true;
 
         currentTween?.Complete();
         currentTween?.Kill();
@@ -392,7 +241,7 @@ public class UIManager : Singleton<UIManager>
         currentTween = uiImage.DOFillAmount(1, imageOnSpeed).SetEase(Ease.Linear);
     }
 
-    private void MoveUI()
+    private void MoveUI() // 이미지 움직임
     {
         targetPosition = Input.mousePosition;
 
@@ -402,27 +251,21 @@ public class UIManager : Singleton<UIManager>
         ui.anchoredPosition = targetPosition;
     }
 
-    public void OffUI()
+    public void OffUI() // 이미지 끄기
     {
-        Invoke("StartOffUI", buttonClickDelay);
+        StartOffUI();
     }
 
-    private void StartOffUI()
+    private void StartOffUI() // 이미지 닫기
     {
-        if (!isOnUI)
-        {
-            return;
-        }
-
-        isOnUI = false;
-
         currentTween?.Complete();
         currentTween?.Kill();
+
         currentTween = uiImage.DOFillAmount(0, imageOffSpeed).SetEase(Ease.Linear).OnComplete(() =>
         {
             uiCanvasGroup.interactable = false;
             uiCanvasGroup.blocksRaycasts = false;
-        });
+        });  
     }
 
     public void SetTopUIText(TopUI topUI, int value)
@@ -456,8 +299,8 @@ public class UIManager : Singleton<UIManager>
         clearPanel.SetActive(true);
     }
 
-    public static void ChangeUI(CanvasGroup ui, float speed, bool isShow, Action endAction)
+    public static Tween ChangeUI(CanvasGroup ui, float speed, bool isShow, Action endAction)
     {
-        ui.DOFade(isShow ? 1 : 0, speed).OnComplete(() => endAction());
+        return ui.DOFade(isShow ? 1 : 0, speed).OnComplete(() => endAction());
     }
 }

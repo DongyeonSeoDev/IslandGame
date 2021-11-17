@@ -3,47 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ResearchUI : MonoBehaviour
+public class ResearchUI : ChangeUI
 {
-    [SerializeField] private CanvasGroup reserchCanvasGroup;
-    [SerializeField] private Button reserchButton;
-    [SerializeField] private float speed = 0.5f;
-
     [SerializeField] Research[] reserch;
-
     [SerializeField] private Text reserchPointText = null;
 
-    private bool isShow = false;
-
-    private void Start()
+    protected override void Start()
     {
-        reserchButton.onClick.AddListener(() =>
-        {
-            isShow = !isShow;
-
-            if (isShow)
-            {
-                reserchCanvasGroup.interactable = true;
-                reserchCanvasGroup.blocksRaycasts = true;
-            }
-
-            UIManager.ChangeUI(reserchCanvasGroup, speed, isShow, () =>
-            {
-                if (!isShow)
-                {
-                    reserchCanvasGroup.interactable = false;
-                    reserchCanvasGroup.blocksRaycasts = false;
-                }
-            });
-        });
+        base.Start();
 
         for (int i = 0; i < reserch.Length; i++)
         {
-            if (reserch[i].buttons.Length >= 3)
+            if (reserch[i].buttons.Length == 3)
             {
                 int num = i;
 
-                reserch[num].buttons[0].onClick.AddListener(() => //버튼이 여러개 일때는?
+                //버튼은 3개
+
+                reserch[num].buttons[0].onClick.AddListener(() =>
                 {
                     if (reserch[num].Level1Condition())
                     {
@@ -72,7 +49,7 @@ public class ResearchUI : MonoBehaviour
             }
             else
             {
-                Debug.LogError($"reserch[{i.ToString()}].button이 3개 미만 입니다.");
+                Debug.LogError($"reserch[{i.ToString()}].button이 3개가 아닙니다.");
             }
         }
     }
