@@ -6,7 +6,7 @@ public class ResearchManager : Singleton<ResearchManager>
 {
     [SerializeField] private ResearchUI researchUI = null;
 
-    private int researchPoint = 50;
+    private int researchPoint = 0;
 
     public int ReserchPoint
     {
@@ -23,13 +23,39 @@ public class ResearchManager : Singleton<ResearchManager>
         }
     }
 
+    //도구
+    public bool isUseAxe { get; private set; } // 도끼 사용 가능
+    public bool isUsePickax { get; private set; } // 곡괭이 사용 가능
+    public bool isUseStrongPickax { get; private set; } // 강한 곡괭이 사용 가능
+
+    //농사
     public bool farmAble { get; private set; } // 땅 설치시 확인
     public float farmValue { get; private set; } // 땅에서 얻을 시 확인
-    public bool level3 { get; private set; } // TODO: Level3 기능 넣기
 
-    public bool stoneAble { get; private set; } // 돌 캘시 확인
-    public bool ironAble { get; private set; } // 철 캘시 확인
-    public bool mineLevel3 { get; private set; } // TODO: Level3 기능 넣기
+    //건설
+    public bool isBuildingWooden { get; private set; } // 나무 건물 건설 가능
+    public bool isBuildingIron { get; private set; } // 철 건물 건설 가능
+    public bool isFixingBoat { get; private set; } // 보트 고치는것 가능
+
+    //전기
+    public bool isBuildingGenerator { get; private set; } // 발전기 건설 가능
+    public bool isbuildingLighthouse { get; private set; } // 등대 건설 가능
+    public bool isFixingElectricity { get; private set; } // 전기 고치기 가능
+
+    public void ToolLevel1Upgrade()
+    {
+        isUseAxe = true;
+    }
+
+    public void ToolLevel2Upgrade()
+    {
+        isUsePickax = true;
+    }
+
+    public void ToolLevel3Upgrade()
+    {
+        isUseStrongPickax = true;
+    }
 
     public void FarmLevel1Upgrade()
     {
@@ -47,27 +73,39 @@ public class ResearchManager : Singleton<ResearchManager>
 
     public void FarmLevel3Upgrade()
     {
-        level3 = true;
-    }
-
-    public void MineLevel1Upgrade()
-    {
-        stoneAble = true;
-    }
-
-    public void MineLevel2Upgrade()
-    {
-        if (stoneAble)
+        if (farmAble)
         {
-            ironAble = true;
+            farmValue = 2f;
         }
     }
 
-    public void MineLevel3Upgrade()
+    public void BuildLevel1Upgrade()
     {
-        if (stoneAble && ironAble)
-        {
-            mineLevel3 = true;
-        }
+        isBuildingWooden = true;
+    }
+
+    public void BuildLevel2Upgrade()
+    {
+        isBuildingIron = true;
+    }
+
+    public void BuildLevel3Upgrade()
+    {
+        isFixingBoat = true;
+    }
+
+    public void ElectricityLevel1Upgrade()
+    {
+        isBuildingGenerator = true;
+    }
+
+    public void ElectricityLevel2Upgrade()
+    {
+        isbuildingLighthouse = true;
+    }
+
+    public void ElectricityLevel3Upgrade()
+    {
+        isFixingElectricity = true;
     }
 }

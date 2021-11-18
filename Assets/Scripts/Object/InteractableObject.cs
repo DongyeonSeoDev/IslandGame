@@ -100,10 +100,10 @@ public class InteractableObject : Outline, IInteractable
                 break;
             case UIType.stone:
 
-                if (!ResearchManager.Instance.stoneAble)
-                {
-                    return;
-                }
+                //if (!ResearchManager.Instance.stoneAble) TODO
+                //{
+                //    return;
+                //}
 
                 GameManager.Instance.PlayerMove(() =>
                 {
@@ -175,10 +175,10 @@ public class InteractableObject : Outline, IInteractable
                 break;
             case UIType.iron:
 
-                if (!ResearchManager.Instance.ironAble)
-                {
-                    return;
-                }
+                //if (!ResearchManager.Instance.ironAble) TODO
+                //{
+                //    return;
+                //}
 
                 GameManager.Instance.PlayerMove(() =>
                 {

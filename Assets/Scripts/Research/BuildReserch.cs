@@ -1,23 +1,23 @@
-public class FarmingResearch : Research
+public class BuildReserch : Research
 {
     public override void Level1()
     {
         base.Level1();
 
-        ResearchManager.Instance.FarmLevel1Upgrade();
+        ResearchManager.Instance.BuildLevel1Upgrade();
     }
 
     public override void Level2()
     {
         base.Level2();
 
-        ResearchManager.Instance.FarmLevel2Upgrade();
+        ResearchManager.Instance.BuildLevel2Upgrade();
     }
 
     public override void Level3()
     {
         base.Level3();
 
-        ResearchManager.Instance.FarmLevel3Upgrade();
+        ResearchManager.Instance.BuildLevel3Upgrade();
     }
 }

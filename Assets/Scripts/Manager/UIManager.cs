@@ -178,27 +178,27 @@ public class UIManager : Singleton<UIManager>
 
             case UIType.stone:
 
-                if (!ResearchManager.Instance.stoneAble)
-                {
-                    uiImage.sprite = GameManager.Instance.currentInteractable.GetStone() ? stoneUI2 : noneUISprite;
-                }
-                else
-                {
-                    uiImage.sprite = GameManager.Instance.currentInteractable.GetStone() ? stoneUI : uiSprites[(int)uiType];
-                }
+                //if (!ResearchManager.Instance.stoneAble) TODO
+                //{
+                //    uiImage.sprite = GameManager.Instance.currentInteractable.GetStone() ? stoneUI2 : noneUISprite;
+                //}
+                //else
+                //{
+                //    uiImage.sprite = GameManager.Instance.currentInteractable.GetStone() ? stoneUI : uiSprites[(int)uiType];
+                //}
 
                 break;
 
             case UIType.iron:
 
-                if (!ResearchManager.Instance.ironAble)
-                {
-                    uiImage.sprite = noneUISprite;
-                }
-                else
-                {
-                    DefaultSprite(uiType);
-                }
+                //if (!ResearchManager.Instance.ironAble) TODO
+                //{
+                //    uiImage.sprite = noneUISprite;
+                //}
+                //else
+                //{
+                //    DefaultSprite(uiType);
+                //}
 
                 break;
 
