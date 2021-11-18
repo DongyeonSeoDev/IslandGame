@@ -10,5 +10,6 @@ public enum UIType
     iron,
     sunPower,
     raft,
+    water,
     none
 }

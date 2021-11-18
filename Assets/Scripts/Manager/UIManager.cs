@@ -43,6 +43,7 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] private Sprite stoneUI;
     [SerializeField] private Sprite stoneUI2;
     [SerializeField] private Sprite treeUI;
+    [SerializeField] private Sprite tree2UI;
 
     private bool showBoat = false;
     public GameObject boatPanel = null;
@@ -178,39 +179,39 @@ public class UIManager : Singleton<UIManager>
 
             case UIType.stone:
 
-                //if (!ResearchManager.Instance.stoneAble) TODO
-                //{
-                //    uiImage.sprite = GameManager.Instance.currentInteractable.GetStone() ? stoneUI2 : noneUISprite;
-                //}
-                //else
-                //{
-                //    uiImage.sprite = GameManager.Instance.currentInteractable.GetStone() ? stoneUI : uiSprites[(int)uiType];
-                //}
+                if (!ResearchManager.Instance.isUsePickax)
+                {
+                    uiImage.sprite = GameManager.Instance.currentInteractable.GetStone() ? stoneUI2 : noneUISprite;
+                }
+                else
+                {
+                    uiImage.sprite = GameManager.Instance.currentInteractable.GetStone() ? stoneUI : uiSprites[(int)uiType];
+                }
 
                 break;
 
             case UIType.iron:
 
-                //if (!ResearchManager.Instance.ironAble) TODO
-                //{
-                //    uiImage.sprite = noneUISprite;
-                //}
-                //else
-                //{
-                //    DefaultSprite(uiType);
-                //}
+                if (!ResearchManager.Instance.isUseStrongPickax)
+                {
+                    uiImage.sprite = noneUISprite;
+                }
+                else
+                {
+                    DefaultSprite(uiType);
+                }
 
                 break;
 
             case UIType.tree:
 
-                if (GameManager.Instance.currentInteractable.GetTree())
+                if (!ResearchManager.Instance.isUseAxe)
                 {
-                    uiImage.sprite = treeUI;
+                    uiImage.sprite = GameManager.Instance.currentInteractable.GetTree() ? tree2UI : noneUISprite;
                 }
                 else
                 {
-                    DefaultSprite(uiType);
+                    uiImage.sprite = GameManager.Instance.currentInteractable.GetTree() ? treeUI : uiSprites[(int)uiType];
                 }
 
                 break;

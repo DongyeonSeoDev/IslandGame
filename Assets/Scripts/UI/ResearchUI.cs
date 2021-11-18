@@ -54,7 +54,7 @@ public class ResearchUI : ChangeUI
         }
     }
 
-    private void ButtonClick(Button button) //TODO: 버튼을 클릭했을때 모양 설정하는 함수
+    private void ButtonClick(Button button)
     {
         button.interactable = false;
         button.image.color = Color.yellow;
@@ -64,7 +64,7 @@ public class ResearchUI : ChangeUI
     {
         if (reserchPointText != null)
         {
-            reserchPointText.text = $"연구 포인트 : {reserchPoint}";
+            reserchPointText.text = reserchPoint.ToString();
         }
     }
 }

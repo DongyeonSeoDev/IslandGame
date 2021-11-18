@@ -12,7 +12,8 @@ public class BuildUI : ChangeUI
 
         buildButton[0].onClick.AddListener(() =>
         {
-            if (InventoryManager.GetItemCount(InventoryItem.Tree) < 10
+            if (!ResearchManager.Instance.isBuildingIron
+            || InventoryManager.GetItemCount(InventoryItem.Tree) < 10
             || InventoryManager.GetItemCount(InventoryItem.Stone) < 5
             || InventoryManager.GetItemCount(InventoryItem.Iron) < 2)
             {
@@ -20,6 +21,7 @@ public class BuildUI : ChangeUI
             }
 
             Debug.Log("설치");
+            ResearchManager.Instance.ReserchPoint += 1;
 
             InventoryManager.UseItem(InventoryItem.Tree, 10);
             InventoryManager.UseItem(InventoryItem.Stone, 5);
@@ -30,7 +32,8 @@ public class BuildUI : ChangeUI
 
         buildButton[1].onClick.AddListener(() =>
         {
-            if (InventoryManager.GetItemCount(InventoryItem.Tree) < 15
+            if (!ResearchManager.Instance.isbuildingLighthouse
+            || InventoryManager.GetItemCount(InventoryItem.Tree) < 15
             || InventoryManager.GetItemCount(InventoryItem.Stone) < 5
             || InventoryManager.GetItemCount(InventoryItem.Iron) < 1
             || GameManager.topUICount[TopUI.electricity] < 20)
@@ -39,6 +42,7 @@ public class BuildUI : ChangeUI
             }
 
             Debug.Log("설치");
+            ResearchManager.Instance.ReserchPoint += 1;
 
             InventoryManager.UseItem(InventoryItem.Tree, 15);
             InventoryManager.UseItem(InventoryItem.Stone, 5);
@@ -50,19 +54,21 @@ public class BuildUI : ChangeUI
 
         buildButton[2].onClick.AddListener(() =>
         {
-            if (!ResearchManager.Instance.farmAble || !InventoryManager.UseItem(InventoryItem.Tree, 5))
+            if (!ResearchManager.Instance.isBuildingWooden || !ResearchManager.Instance.farmAble || !InventoryManager.UseItem(InventoryItem.Tree, 5))
             {
                 return;
             }
 
             Debug.Log("설치");
+            ResearchManager.Instance.ReserchPoint += 1;
 
             GameManager.Instance.buildObject = Instantiate(buildObject[2]);
         });
 
         buildButton[3].onClick.AddListener(() =>
         {
-            if (InventoryManager.GetItemCount(InventoryItem.Tree) < 10
+            if (!ResearchManager.Instance.isBuildingGenerator
+            || InventoryManager.GetItemCount(InventoryItem.Tree) < 10
             || InventoryManager.GetItemCount(InventoryItem.Stone) < 5
             || InventoryManager.GetItemCount(InventoryItem.Iron) < 2)
             {
@@ -70,6 +76,7 @@ public class BuildUI : ChangeUI
             }
 
             Debug.Log("설치");
+            ResearchManager.Instance.ReserchPoint += 1;
 
             InventoryManager.UseItem(InventoryItem.Tree, 10);
             InventoryManager.UseItem(InventoryItem.Stone, 5);
@@ -81,12 +88,13 @@ public class BuildUI : ChangeUI
 
         buildButton[4].onClick.AddListener(() =>
         {
-            if (!InventoryManager.UseItem(InventoryItem.Tree, 10))
+            if (!ResearchManager.Instance.isBuildingWooden || !InventoryManager.UseItem(InventoryItem.Tree, 10))
             {
                 return;
             }
 
             Debug.Log("설치");
+            ResearchManager.Instance.ReserchPoint += 1;
 
             GameManager.Instance.buildObject = Instantiate(buildObject[4]);
             GameManager.Instance.isBoat = true;
@@ -94,7 +102,8 @@ public class BuildUI : ChangeUI
 
         buildButton[5].onClick.AddListener(() =>
         {
-            if (InventoryManager.GetItemCount(InventoryItem.Tree) < 15
+            if (!ResearchManager.Instance.isBuildingWooden 
+            || InventoryManager.GetItemCount(InventoryItem.Tree) < 15
             || InventoryManager.GetItemCount(InventoryItem.Stone) < 5
             || InventoryManager.GetItemCount(InventoryItem.Iron) < 1)
             {
@@ -102,6 +111,7 @@ public class BuildUI : ChangeUI
             }
 
             Debug.Log("설치");
+            ResearchManager.Instance.ReserchPoint += 1;
 
             InventoryManager.UseItem(InventoryItem.Tree, 15);
             InventoryManager.UseItem(InventoryItem.Stone, 5);
