@@ -179,7 +179,7 @@ public class UIManager : Singleton<UIManager>
 
             case UIType.stone:
 
-                if (!ResearchManager.Instance.isUsePickax)
+                if (!ResearchManager.Instance.isUsePickax || InventoryManager.GetItemCount(InventoryItem.Pickax) <= 0)
                 {
                     uiImage.sprite = GameManager.Instance.currentInteractable.GetStone() ? stoneUI2 : noneUISprite;
                 }
@@ -192,7 +192,7 @@ public class UIManager : Singleton<UIManager>
 
             case UIType.iron:
 
-                if (!ResearchManager.Instance.isUseStrongPickax)
+                if (!ResearchManager.Instance.isUseStrongPickax || InventoryManager.GetItemCount(InventoryItem.StrongPickaxe) <= 0)
                 {
                     uiImage.sprite = noneUISprite;
                 }
@@ -205,7 +205,7 @@ public class UIManager : Singleton<UIManager>
 
             case UIType.tree:
 
-                if (!ResearchManager.Instance.isUseAxe)
+                if (!ResearchManager.Instance.isUseAxe || InventoryManager.GetItemCount(InventoryItem.Axe) <= 0)
                 {
                     uiImage.sprite = GameManager.Instance.currentInteractable.GetTree() ? tree2UI : noneUISprite;
                 }
