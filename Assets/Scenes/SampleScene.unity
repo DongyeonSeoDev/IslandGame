@@ -2692,7 +2692,7 @@ MonoBehaviour:
     needItemSprites:
     - {fileID: 21300000, guid: e0eac6b76fdd842e88a7f8c75ecffaf4, type: 3}
     - {fileID: 21300000, guid: c6f7047ddcbdd47f09c014d6044a5b82, type: 3}
-    count: 020000000a000000
+    count: 0200000005000000
   - needItems: 000000000500000008000000
     needItemSprites:
     - {fileID: 21300000, guid: e0eac6b76fdd842e88a7f8c75ecffaf4, type: 3}
