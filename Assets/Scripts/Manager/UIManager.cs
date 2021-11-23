@@ -34,8 +34,6 @@ public class UIManager : Singleton<UIManager>
 
     [SerializeField] private Text[] topUIText;
 
-    [SerializeField] private Button normalButton;
-    [SerializeField] private Button speedUpButton;
     [SerializeField] private Sprite[] normalSprites;
     [SerializeField] private Sprite[] speedUpSprites;
 
@@ -74,28 +72,6 @@ public class UIManager : Singleton<UIManager>
         buttons[3].onClick.AddListener(() =>
         {
             GameManager.Instance?.currentInteractable?.LeftButtonClick();
-        });
-
-        normalButton.onClick.AddListener(() =>
-        {
-            if (GameManager.Instance.isSpeedUp)
-            {
-                GameManager.Instance.isSpeedUp = false;
-
-                normalButton.image.sprite = normalSprites[1];
-                speedUpButton.image.sprite = speedUpSprites[0];
-            }
-        });
-
-        speedUpButton.onClick.AddListener(() =>
-        {
-            if (!GameManager.Instance.isSpeedUp)
-            {
-                GameManager.Instance.isSpeedUp = true;
-
-                normalButton.image.sprite = normalSprites[0];
-                speedUpButton.image.sprite = speedUpSprites[1];
-            }
         });
 
         GameManager.Instance.gameOverEvent += () =>
@@ -139,7 +115,7 @@ public class UIManager : Singleton<UIManager>
     {
         switch (uiType)
         {
-            case UIType.sunPower:
+            case UIType.SunPower:
 
                 if (GameManager.Instance.currentInteractable.GetUseSunPower())
                 {
@@ -152,7 +128,7 @@ public class UIManager : Singleton<UIManager>
 
                 break;
 
-            case UIType.farmField:
+            case UIType.FarmField:
 
                 if (!GameManager.Instance.currentInteractable.GetSeed())
                 {
@@ -177,7 +153,7 @@ public class UIManager : Singleton<UIManager>
 
                 break;
 
-            case UIType.stone:
+            case UIType.Stone:
 
                 if (!ResearchManager.Instance.isUsePickax || InventoryManager.GetItemCount(InventoryItem.Pickax) <= 0)
                 {
@@ -190,7 +166,7 @@ public class UIManager : Singleton<UIManager>
 
                 break;
 
-            case UIType.iron:
+            case UIType.Iron:
 
                 if (!ResearchManager.Instance.isUseStrongPickax || InventoryManager.GetItemCount(InventoryItem.StrongPickaxe) <= 0)
                 {
@@ -203,7 +179,7 @@ public class UIManager : Singleton<UIManager>
 
                 break;
 
-            case UIType.tree:
+            case UIType.Tree:
 
                 if (!ResearchManager.Instance.isUseAxe || InventoryManager.GetItemCount(InventoryItem.Axe) <= 0)
                 {
@@ -285,7 +261,7 @@ public class UIManager : Singleton<UIManager>
         if (InventoryManager.GetItemCount(InventoryItem.Tree) < 10
             || InventoryManager.GetItemCount(InventoryItem.Stone) < 10
             || InventoryManager.GetItemCount(InventoryItem.Iron) < 10
-            || GameManager.topUICount[TopUI.electricity] < 20
+            || GameManager.topUICount[TopUI.Electricity] < 20
             || !GameManager.Instance.isLight)
         {
             return;

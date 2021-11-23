@@ -1,6 +1,7 @@
+//UI 아이템 종류
 public enum TopUI
 {
-    food,
-    water,
-    electricity
+    Food,
+    Water,
+    Electricity
 }

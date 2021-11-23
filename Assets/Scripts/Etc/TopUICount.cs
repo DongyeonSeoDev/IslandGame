@@ -1,4 +1,4 @@
-public class TopUICount
+public class TopUICount // UI 아이템 갯수를 관리하는 클래스
 {
     private int[] topUICount = new int[6];
 

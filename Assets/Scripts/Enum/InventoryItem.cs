@@ -1,3 +1,4 @@
+//인벤토리 아이템 종류
 public enum InventoryItem
 {
     Tree,

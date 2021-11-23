@@ -8,7 +8,7 @@ public class InteractableObject : Outline, IInteractable
 
     private bool focus = false;
 
-    public UIType uiType = UIType.none;
+    public UIType uiType = UIType.None;
 
     private bool isUseSunPower = false;
 
@@ -68,7 +68,7 @@ public class InteractableObject : Outline, IInteractable
     {
         switch (uiType)
         {
-            case UIType.farmField:
+            case UIType.FarmField:
                 if (isFarmFieldSeed)
                 {
                     return;
@@ -92,7 +92,7 @@ public class InteractableObject : Outline, IInteractable
     {
         switch (uiType)
         {
-            case UIType.tree:
+            case UIType.Tree:
                 if (!ResearchManager.Instance.isUseAxe || InventoryManager.GetItemCount(InventoryItem.Axe) <= 0)
                 {
                     return;
@@ -107,7 +107,7 @@ public class InteractableObject : Outline, IInteractable
                     ResearchManager.Instance.ReserchPoint += 1;
                 });
                 break;
-            case UIType.stone:
+            case UIType.Stone:
 
                 if (!ResearchManager.Instance.isUsePickax || InventoryManager.GetItemCount(InventoryItem.Pickax) <= 0)
                 {
@@ -125,7 +125,7 @@ public class InteractableObject : Outline, IInteractable
                     ResearchManager.Instance.ReserchPoint += 1;
                 });
                 break;
-            case UIType.waterTank:
+            case UIType.WaterTank:
 
                 if (!InventoryManager.UseItem(InventoryItem.NoWaterBottle, 1))
                 {
@@ -140,7 +140,7 @@ public class InteractableObject : Outline, IInteractable
                     ResearchManager.Instance.ReserchPoint += 1;
                 });
                 break;
-            case UIType.lightHouse:
+            case UIType.LightHouse:
 
                 if (InventoryManager.GetItemCount(InventoryItem.ElectricalParts) <= 0 || InventoryManager.GetItemCount(InventoryItem.ElectricWires) <= 0)
                 {
@@ -158,17 +158,17 @@ public class InteractableObject : Outline, IInteractable
                     ResearchManager.Instance.ReserchPoint += 1;
                 });
                 break;
-            case UIType.food:
+            case UIType.Food:
                 GameManager.Instance.PlayerMove(() =>
                 {
                     gameObject.SetActive(false);
                     Debug.Log("음식 얻음");
-                    GameManager.topUICount[TopUI.food] += 2;
+                    GameManager.topUICount[TopUI.Food] += 2;
 
                     ResearchManager.Instance.ReserchPoint += 1;
                 });
                 break;
-            case UIType.chest:
+            case UIType.Chest:
                 GameManager.Instance.PlayerMove(() =>
                 {
                     gameObject.SetActive(false);
@@ -177,12 +177,12 @@ public class InteractableObject : Outline, IInteractable
                     InventoryManager.AddItem(InventoryItem.Stone, 10);
                     InventoryManager.AddItem(InventoryItem.Iron, 5);
                     InventoryManager.AddItem(InventoryItem.PartsBox, 1);
-                    GameManager.topUICount[TopUI.food] += 10;
+                    GameManager.topUICount[TopUI.Food] += 10;
 
                     ResearchManager.Instance.ReserchPoint += 1;
                 });
                 break;
-            case UIType.farmField:
+            case UIType.FarmField:
                 if (!isFarmFieldComplete)
                 {
                     return;
@@ -212,7 +212,7 @@ public class InteractableObject : Outline, IInteractable
                     ResearchManager.Instance.ReserchPoint += 1;
                 });
                 break;
-            case UIType.iron:
+            case UIType.Iron:
 
                 if (!ResearchManager.Instance.isUseStrongPickax || InventoryManager.GetItemCount(InventoryItem.StrongPickaxe) <= 0)
                 {
@@ -228,7 +228,7 @@ public class InteractableObject : Outline, IInteractable
                     ResearchManager.Instance.ReserchPoint += 1;
                 });
                 break;
-            case UIType.sunPower:
+            case UIType.SunPower:
 
                 if (InventoryManager.GetItemCount(InventoryItem.ElectricalParts) <= 0 || InventoryManager.GetItemCount(InventoryItem.ElectricWires) <= 0)
                 {
@@ -247,7 +247,7 @@ public class InteractableObject : Outline, IInteractable
                 {
                     if (!isUseSunPower)
                     {
-                        GameManager.topUICount[TopUI.electricity] += 20;
+                        GameManager.topUICount[TopUI.Electricity] += 20;
                         isUseSunPower = true;
                         Debug.Log("전기를 얻어옴");
 
@@ -255,7 +255,7 @@ public class InteractableObject : Outline, IInteractable
                     }
                 });
                 break;
-            case UIType.raft:
+            case UIType.Raft:
 
                 RaftMove raftMove = GetComponent<RaftMove>();
 
@@ -265,7 +265,7 @@ public class InteractableObject : Outline, IInteractable
                     Debug.Log("이동");
                 }, false, null, false);
                 break;
-            case UIType.water:
+            case UIType.Water:
 
                 if (!InventoryManager.UseItem(InventoryItem.UnrefinedWaterBottle, 1))
                 {
@@ -279,7 +279,7 @@ public class InteractableObject : Outline, IInteractable
                     ResearchManager.Instance.ReserchPoint += 1;
                 }, false, null, false);
                 break;
-            case UIType.none:
+            case UIType.None:
                 Debug.Log("none 클릭");
                 break;
             default:
@@ -292,8 +292,8 @@ public class InteractableObject : Outline, IInteractable
     {
         switch (uiType)
         {
-            case UIType.farmField:
-                if (isFarmFieldWater || !isFarmFieldSeed || GameManager.topUICount[TopUI.water] < 21)
+            case UIType.FarmField:
+                if (isFarmFieldWater || !isFarmFieldSeed || GameManager.topUICount[TopUI.Water] < 21)
                 {
                     return;
                 }
@@ -311,7 +311,7 @@ public class InteractableObject : Outline, IInteractable
                     isFarmFieldWater = true;
 
                     waterCount++;
-                    GameManager.topUICount[TopUI.water] -= 3;
+                    GameManager.topUICount[TopUI.Water] -= 3;
 
                     if (waterCount >= 2)
                     {
@@ -328,7 +328,7 @@ public class InteractableObject : Outline, IInteractable
                     ResearchManager.Instance.ReserchPoint += 1;
                 });
                 break;
-            case UIType.tree:
+            case UIType.Tree:
                 if (!isTree)
                 {
                     return;
@@ -351,7 +351,7 @@ public class InteractableObject : Outline, IInteractable
                     ResearchManager.Instance.ReserchPoint += 1;
                 });
                 break;
-            case UIType.stone:
+            case UIType.Stone:
                 if (!isStone)
                 {
                     return;

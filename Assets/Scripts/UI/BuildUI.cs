@@ -36,7 +36,7 @@ public class BuildUI : ChangeUI
             || InventoryManager.GetItemCount(InventoryItem.Tree) < 15
             || InventoryManager.GetItemCount(InventoryItem.Stone) < 5
             || InventoryManager.GetItemCount(InventoryItem.Iron) < 1
-            || GameManager.topUICount[TopUI.electricity] < 20)
+            || GameManager.topUICount[TopUI.Electricity] < 20)
             {
                 return;
             }
@@ -47,7 +47,7 @@ public class BuildUI : ChangeUI
             InventoryManager.UseItem(InventoryItem.Tree, 15);
             InventoryManager.UseItem(InventoryItem.Stone, 5);
             InventoryManager.UseItem(InventoryItem.Iron, 1);
-            GameManager.topUICount[TopUI.electricity] -= 20;
+            GameManager.topUICount[TopUI.Electricity] -= 20;
 
             GameManager.Instance.buildObject = Instantiate(buildObject[1]);
         });
