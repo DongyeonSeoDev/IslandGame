@@ -1,23 +1,22 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
 public class PlayerMove : MonoBehaviour
 {
-    private NavMeshAgent agent;
-    private Animator animator;
+    private NavMeshAgent agent; //네브메쉬
+    private Animator animator; //애니메이터
 
+    //hash로 미리 정의
     private readonly int hashSpeed = Animator.StringToHash("speed");
     private readonly int hashGetUp = Animator.StringToHash("getUp");
     private readonly int hashIsDie = Animator.StringToHash("isDie");
 
-    private Vector3 gizmosPosition;
+    private Vector3 gizmosPosition; // Debug용 gizmos
 
-    private Vector3 targetPosition = Vector3.zero;
-    public Vector3 TargetPosition
+    private Vector3 targetPosition = Vector3.zero; // 목표 위치
+    public Vector3 TargetPosition // 목표 위치를 설정
     {
         get
         {
@@ -33,35 +32,36 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-    private bool isDie = false;
-    private bool isStart = false;
+    private bool isDie = false; // 죽었는지
+    private bool isStart = false; // 게임이 시작되었는지
 
-    public bool playerEventLock = false;
-    public bool isAgentCheck = true;
+    public bool playerEventLock = false; // 플레이어 이벤트 관리
+    public bool isAgentCheck = true; // 플레이어 네브메쉬 관리
 
     public Action playerEvent = () =>
     {
 
     };
 
-    public bool isEvent = false;
+    public bool isEvent = false; // 이벤트 관리
 
     private void Awake()
     {
+        // 변수 초기화
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
     }
 
     private void Start()
     {
-        animator.SetTrigger(hashGetUp);
-        animator.speed = 0f;
+        animator.SetTrigger(hashGetUp); // 애니메이션 실행
+        animator.speed = 0f; // 애니메이션 멈춤
 
         agent.isStopped = true;
 
-        Invoke("StartAnimation", GameManager.Instance.gameStartTime);
+        Invoke("StartAnimation", GameManager.Instance.gameStartTime); // 게임이 시작된 후에
 
-        GameManager.Instance.gameOverEvent += () =>
+        GameManager.Instance.gameOverEvent += () => // 게임오버 이벤트 설정
         {
             IsDie();
         };
@@ -74,32 +74,32 @@ public class PlayerMove : MonoBehaviour
             return;
         }
 
-        animator.SetFloat(hashSpeed, agent.velocity.sqrMagnitude);
+        animator.SetFloat(hashSpeed, agent.velocity.sqrMagnitude); // 플레이어 애니메이션 설정
 
-        if (isEvent && !agent.pathPending && agent.remainingDistance <= 1f)
+        if (isEvent && !agent.pathPending && agent.remainingDistance <= 1f) // 도착했다면
         {
-            playerEvent();
+            playerEvent(); // 플레이어 이벤트 실행
             isEvent = false;
 
             if (isAgentCheck)
             {
-                TargetPosition = transform.position;
+                TargetPosition = transform.position; // 목표위치는 현재위치로
             }
         }
 
-        if (!isEvent && !agent.pathPending && agent.velocity.magnitude > 0)
+        if (!isEvent && !agent.pathPending && agent.velocity.magnitude > 0) // 이벤트가 아닌데 움직이면
         {
-            TargetPosition = transform.position;
+            TargetPosition = transform.position; // 목표위치는 현재위치로
         }
     }
 
-    public void Event(Vector3 position)
+    public void Event(Vector3 position) // 이벤트 실행
     {
         TargetPosition = position;
         isEvent = true;
     }
 
-    private void IsDie()
+    private void IsDie() // 죽었을때
     {
         if (isDie || !isStart)
         {
@@ -113,14 +113,14 @@ public class PlayerMove : MonoBehaviour
 
     private void StartAnimation()
     {
-        animator.speed = 1f;
+        animator.speed = 1f; // 애니메이션 시작
 
         isStart = true;
         agent.isStopped = false;
 
         TargetPosition = transform.position;
     }
-    private void OnDrawGizmos()
+    private void OnDrawGizmos() // Gizmos 그리기
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawSphere(gizmosPosition, 0.5f);

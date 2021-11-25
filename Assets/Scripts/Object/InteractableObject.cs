@@ -2,38 +2,39 @@ using UnityEngine;
 
 public class InteractableObject : Outline, IInteractable
 {
-    private PlayerMove playerMove = null;
+    [SerializeField] private Transform walkTransform; // 플레이어 이동 위치
 
-    [SerializeField] private Transform walkTransform;
+    private PlayerMove playerMove = null; // 플레이어 클래스
 
-    private bool focus = false;
+    private bool focus = false; // 포커스 상태
 
-    public UIType uiType = UIType.None;
+    public UIType uiType = UIType.None; // 설치 건물 종류
 
-    private bool isUseSunPower = false;
+    private bool isUseSunPower = false; // 발전기를 사용했는지
+    public bool isStone = true; // 돌을 얻을 수 있는지
+    public bool isTree = true; // 나무를 얻을 수 있는지
 
-    public GameObject seed;
-    public GameObject tomato;
-    public Material material;
-    public Material currentMaterial;
+    // 농사 전용 변수
+    public GameObject seed; //씨앗 오브젝트
+    public GameObject tomato; // 열매 오브젝트
+    public Material material; // 물에 젖은 메테리얼
+    public Material currentMaterial; // 현재 메테리얼
 
-    private int waterCount = 0;
+    private int waterCount = 0; // 물을 준 횟수
 
-    public bool isFarmFieldSeed = false;
-    public bool isFarmFieldWater = false;
-    public bool isFarmFieldComplete = false;
-
-    public bool isStone = true;
-    public bool isTree = true;
+    public bool isFarmFieldSeed = false; //씨앗 상태
+    public bool isFarmFieldWater = false; // 물 상태
+    public bool isFarmFieldComplete = false; // 농사 완료
 
     protected override void Awake()
     {
+        //변수 초기화
         base.Awake();
 
         playerMove = FindObjectOfType<PlayerMove>();
     }
 
-    public void EnterFocus()
+    public void EnterFocus() // 포커스 안일때
     {
         if (!focus)
         {
@@ -41,55 +42,57 @@ public class InteractableObject : Outline, IInteractable
 
             Debug.Log(gameObject.name + "을 선택하고 있습니다.");
 
-            OutlineWidth = 3;
+            OutlineWidth = 3; // 테두리 표시
             OutlineColor = Color.white;
         }
     }
 
-    public void ExitFocus()
+    public void ExitFocus() // 포커스를 나갔을때
     {
         focus = false;
 
         Debug.Log(gameObject.name + "선택을 해제했습니다.");
 
-        OutlineWidth = 0;
+        OutlineWidth = 0; // 테두리 제거
     }
 
-    public void Interact()
+    public void Interact() // 오브젝트 클릭
     {
         Debug.Log(gameObject.name + "를 클릭했습니다.");
 
-        GameManager.Instance.currentInteractablePosition = GetWalkPosition();
+        GameManager.Instance.currentInteractablePosition = GetWalkPosition(); // 이동좌표 설정
 
-        UIManager.Instance.OnUI(uiType);
+        UIManager.Instance.OnUI(uiType); // UI 표시
     }
 
-    public void UpButtonClick()
+    public void UpButtonClick() // 위 버튼 클릭
     {
+        //아이템과 건물 종류에 따라 조건이 달라짐
         switch (uiType)
         {
-            case UIType.FarmField:
-                if (isFarmFieldSeed)
+            case UIType.FarmField: // 건물 종류
+                if (isFarmFieldSeed) // 사용 가능한지 확인
                 {
                     return;
                 }
-                GameManager.Instance.PlayerMove(() =>
+                GameManager.Instance.PlayerMove(() => // 이동
                 {
                     if (!isFarmFieldSeed)
                     {
-                        Debug.Log("씨앗");
+                        Debug.Log("씨앗"); // 사용
                         seed.SetActive(true);
                         isFarmFieldSeed = true;
 
-                        ResearchManager.Instance.ReserchPoint += 1;
+                        ResearchManager.Instance.ReserchPoint += 1; // 연구 포인트 오름
                     }
                 });
                 break;
         }
     }
 
-    public void DownButtonClick()
+    public void DownButtonClick() // 아레 버튼 클릭
     {
+        //아이템과 건물 종류에 따라 조건이 달라짐
         switch (uiType)
         {
             case UIType.Tree:
@@ -288,7 +291,7 @@ public class InteractableObject : Outline, IInteractable
         }
     }
 
-    public void RightButtonClick()
+    public void RightButtonClick() // 오른쪽 버튼 클릭
     {
         switch (uiType)
         {
@@ -375,17 +378,22 @@ public class InteractableObject : Outline, IInteractable
         }
     }
 
-    private void Wood()
+    public void LeftButtonClick() // 왼쪽 버튼 클릭
+    {
+        Debug.Log("닫힘"); // 왼쪽 버튼은 창을 닫는 버튼임
+    }
+
+    private void Wood() // 나무 확인
     {
         isTree = true;
     }
 
-    private void Stone()
+    private void Stone() // 돌 확인
     {
         isStone = true;
     }
 
-    private void ChangeWater()
+    private void ChangeWater() // 물 메테리얼 변경
     {
         isFarmFieldWater = false;
 
@@ -393,16 +401,12 @@ public class InteractableObject : Outline, IInteractable
         mesh.material = currentMaterial;
     }
 
-    public void LeftButtonClick()
-    {
-        Debug.Log("닫힘");
-    }
-
-    public bool GetUseSunPower()
+    public bool GetUseSunPower() // 발전소가 사용 가능 한지
     {
         return isUseSunPower;
     }
-
+    
+    // 농사 관련 일을 할 수 있는지
     public bool GetSeed()
     {
         return isFarmFieldSeed;
@@ -418,16 +422,19 @@ public class InteractableObject : Outline, IInteractable
         return isFarmFieldComplete;
     }
 
+    // 돌 상태 리턴
     public bool GetStone()
     {
         return isStone;
     }
 
+    // 나무 상태 리턴
     public bool GetTree()
     {
         return isTree;
     }
 
+    // 플레이어 이동 위치 리턴
     public Vector3 GetWalkPosition()
     {
         return walkTransform.position - (Quaternion.FromToRotation(transform.position, playerMove.transform.position) * Vector3.one);

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
@@ -7,52 +5,52 @@ using System;
 
 public class UIManager : Singleton<UIManager>
 {
-    [SerializeField] private Image fadePanel = null;
-    [SerializeField] private RectTransform ui = null;
+    [SerializeField] private Image fadePanel = null; // 페이드 인, 페이드 아웃 패널
+    [SerializeField] private RectTransform ui = null; // 상호작용 가능한 오브젝트를 선택했을때 나오는 UI
 
-    private Image uiImage = null;
-    private CanvasGroup uiCanvasGroup = null;
+    [SerializeField] private Vector2 limitMaxPosition = Vector2.zero; // 상호작용 가능한 오브젝트를 선택했을때 나오는 UI의 최대 위치
+    [SerializeField] private Vector2 limitMinPosition = Vector2.zero; // 상호작용 가능한 오브젝트를 선택했을때 나오는 UI의 최소 위치
 
-    [SerializeField] private Vector2 limitMaxPosition = Vector2.zero;
-    [SerializeField] private Vector2 limitMinPosition = Vector2.zero;
-
-    private Vector2 targetPosition = Vector2.zero;
-
+    // UI 관련 시간
     [SerializeField] private float delayTime = 0f;
     [SerializeField] private float fadeTime = 0f;
+
+    // UI 관련 스피드
     [SerializeField] private float imageOnSpeed = 0f;
     [SerializeField] private float imageOffSpeed = 0f;
 
-    private Tween currentTween = null;
+    [SerializeField] private Button[] buttons = null; // 상호작용 가능한 오브젝트를 선택했을때 나오는 버튼
+    [SerializeField] private Sprite[] uiSprites = null; // 상호작용 가능한 오브젝트를 선택했을때 나오는 이미지
+    [SerializeField] private Sprite noneUISprite = null; // 상호작용 가능한 오브젝트를 선택했을때 나오는 빈 이미지
 
-    [SerializeField] private Button[] buttons = null;
-    [SerializeField] private Sprite[] uiSprites = null;
-    [SerializeField] private Sprite noneUISprite = null;
+    [SerializeField] private CanvasGroup mainCanvas = null; // 메인 캔버스
+    [SerializeField] private float mainCanvasTime = 0f; // 메인 캔버스 페이드 시간
 
-    [SerializeField] private CanvasGroup mainCanvas = null;
-    [SerializeField] private float mainCanvasTime = 0f;
+    [SerializeField] private Text[] topUIText; // UI 아이템 텍스트
 
-    [SerializeField] private Text[] topUIText;
+    [SerializeField] private Sprite[] farmFieldUI; // 농사 UI
+    [SerializeField] private Sprite stoneUI; // 돌 UI
+    [SerializeField] private Sprite stoneUI2; // 돌2 UI
+    [SerializeField] private Sprite treeUI; // 나무 UI
+    [SerializeField] private Sprite tree2UI; // 나무2 UI
 
-    [SerializeField] private Sprite[] normalSprites;
-    [SerializeField] private Sprite[] speedUpSprites;
+    private Image uiImage = null; // 상호작용 가능한 오브젝트를 선택했을때 나오는 UI의 이미지
+    private CanvasGroup uiCanvasGroup = null; // 상호작용 가능한 오브젝트를 선택했을때 나오는 UI의 캔버스 그룹
 
-    [SerializeField] private Sprite[] farmFieldUI;
-    [SerializeField] private Sprite stoneUI;
-    [SerializeField] private Sprite stoneUI2;
-    [SerializeField] private Sprite treeUI;
-    [SerializeField] private Sprite tree2UI;
+    private Vector2 targetPosition = Vector2.zero; // 상호작용 가능한 오브젝트를 선택했을때 나오는 UI의 목표 위치
 
-    private bool showBoat = false;
-    public GameObject boatPanel = null;
-    public GameObject clearPanel = null;
+    private Tween currentTween = null; // 현재 Tween
+
+    private bool showBoat = false; // 보트 UI 상태
+    public GameObject boatPanel = null; // 보트 UI
+    public GameObject clearPanel = null; // 게임 클리어 UI
 
     private void Start()
     {
+        // 변수 초기화
+
         uiImage = ui.GetComponent<Image>();
         uiCanvasGroup = ui.GetComponent<CanvasGroup>();
-
-        Invoke("FadeIn", delayTime);
 
         buttons[0].onClick.AddListener(() =>
         {
@@ -78,9 +76,11 @@ public class UIManager : Singleton<UIManager>
         {
             Invoke("FadeOut", delayTime);
         };
+
+        Invoke("FadeIn", delayTime);
     }
 
-    private void FadeIn()
+    private void FadeIn() // 메인 UI 페이드 인
     {
         Color color = Color.black;
         color.a = 0;
@@ -96,7 +96,7 @@ public class UIManager : Singleton<UIManager>
         });
     }
 
-    private void FadeOut()
+    private void FadeOut() // 메인 UI 페이드 아웃
     {
         Color color = Color.black;
 
@@ -113,7 +113,7 @@ public class UIManager : Singleton<UIManager>
 
     public void OnUI(UIType uiType) // 이미지 정하기
     {
-        switch (uiType)
+        switch (uiType) // 아이템 별로 조건이 다르기 때문에 switch와 if else를 같이 사용함
         {
             case UIType.SunPower:
 
@@ -200,7 +200,7 @@ public class UIManager : Singleton<UIManager>
         StartOnUI();
     }
 
-    private void DefaultSprite(UIType uiType)
+    private void DefaultSprite(UIType uiType) // 기본 UI
     {
         uiImage.sprite = uiSprites[(int)uiType];
     }
@@ -245,19 +245,20 @@ public class UIManager : Singleton<UIManager>
         });  
     }
 
-    public void SetTopUIText(TopUI topUI, int value)
+    public void SetTopUIText(TopUI topUI, int value) // UI 아이템 Text 변경
     {
         topUIText[(int)topUI].text = value.ToString();
     }
 
-    public void ShowBoat()
+    public void ShowBoat() // 보트 창 UI 설정
     {
         showBoat = !showBoat;
         boatPanel.SetActive(showBoat);
     }
 
-    public void Click()
+    public void Click() // 배 고치기 버튼을 클릭했을때
     {
+        // 재료가 있는지 확인
         if (InventoryManager.GetItemCount(InventoryItem.Tree) < 10
             || InventoryManager.GetItemCount(InventoryItem.Stone) < 10
             || InventoryManager.GetItemCount(InventoryItem.Iron) < 10
@@ -269,13 +270,16 @@ public class UIManager : Singleton<UIManager>
 
         Debug.Log("고침");
 
+        //재료 사용
         InventoryManager.UseItem(InventoryItem.Tree, 10);
         InventoryManager.UseItem(InventoryItem.Stone, 10);
         InventoryManager.UseItem(InventoryItem.Iron, 10);
 
+        //게임 클리어
         clearPanel.SetActive(true);
     }
 
+    //UI, 스피드, 상태, 끝나고 실행할 함수를 넣으면 자동으로 페이드를 실행해주는 함수
     public static Tween ChangeUI(CanvasGroup ui, float speed, bool isShow, Action endAction)
     {
         return ui.DOFade(isShow ? 1 : 0, speed).OnComplete(() => endAction());
