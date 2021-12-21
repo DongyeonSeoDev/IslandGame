@@ -1,6 +1,6 @@
 public class TopUICount // UI 아이템 갯수를 관리하는 클래스
 {
-    private int[] topUICount = new int[6];
+    private int[] topUICount = new int[3];
 
     public int this[TopUI index]
     {
@@ -15,5 +15,10 @@ public class TopUICount // UI 아이템 갯수를 관리하는 클래스
 
             UIManager.Instance.SetTopUIText(index, topUICount[(int)index]);
         }
+    }
+
+    public int[] GetAllTopUICount()
+    {
+        return topUICount;
     }
 }

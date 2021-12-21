@@ -3,6 +3,17 @@ public class InventoryManager : Singleton<InventoryManager>
     public Item[] items; // 현재 가지고 있는 아이템
     public InventoryUI inventoryUI; // 인벤토리 UI
 
+    private void Start()
+    {
+        if (GameManager.Instance.gameData.isStart)
+        {
+            for (int i = 0; i < items.Length; i++)
+            {
+                AddItem(i, GameManager.Instance.gameData.items[i].count);
+            }
+        }
+    }
+
     /// <summary>
     /// 현재 아이템을 가지고 있는 갯수를 출력
     /// </summary>
@@ -22,6 +33,12 @@ public class InventoryManager : Singleton<InventoryManager>
     {
         Instance.items[(int)item].count += count;
         Instance.inventoryUI.SetText(Instance.items[(int)item]);
+    }
+
+    private static void AddItem(int num, int count)
+    {
+        Instance.items[num].count += count;
+        Instance.inventoryUI.SetText(Instance.items[num]);
     }
 
     /// <summary>

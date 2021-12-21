@@ -45,39 +45,57 @@ public class UIManager : Singleton<UIManager>
     public GameObject boatPanel = null; // 보트 UI
     public GameObject clearPanel = null; // 게임 클리어 UI
 
+    private GameManager gameManager;
+
     private void Start()
     {
         // 변수 초기화
+        gameManager = GameManager.Instance;
 
         uiImage = ui.GetComponent<Image>();
         uiCanvasGroup = ui.GetComponent<CanvasGroup>();
 
         buttons[0].onClick.AddListener(() =>
         {
-            GameManager.Instance?.currentInteractable?.UpButtonClick();
+            gameManager?.currentInteractable?.UpButtonClick();
         });
 
         buttons[1].onClick.AddListener(() =>
         {
-            GameManager.Instance?.currentInteractable?.DownButtonClick();
+            gameManager?.currentInteractable?.DownButtonClick();
         });
 
         buttons[2].onClick.AddListener(() =>
         {
-            GameManager.Instance?.currentInteractable?.RightButtonClick();
+            gameManager?.currentInteractable?.RightButtonClick();
         });
 
         buttons[3].onClick.AddListener(() =>
         {
-            GameManager.Instance?.currentInteractable?.LeftButtonClick();
+            gameManager?.currentInteractable?.LeftButtonClick();
         });
 
-        GameManager.Instance.gameOverEvent += () =>
+        gameManager.gameOverEvent += () =>
         {
             Invoke("FadeOut", delayTime);
         };
 
-        Invoke("FadeIn", delayTime);
+        if (gameManager.gameData.isStart)
+        {
+            Color color = Color.black;
+            color.a = 0;
+
+            fadePanel.raycastTarget = false;
+            mainCanvas.interactable = true;
+            mainCanvas.blocksRaycasts = true;
+
+            fadePanel.color = color;
+            mainCanvas.alpha = 1;
+        }
+        else
+        {
+            Invoke("FadeIn", delayTime);
+        }
     }
 
     private void FadeIn() // 메인 UI 페이드 인
@@ -117,7 +135,7 @@ public class UIManager : Singleton<UIManager>
         {
             case UIType.SunPower:
 
-                if (GameManager.Instance.currentInteractable.GetUseSunPower())
+                if (gameManager.currentInteractable.GetUseSunPower())
                 {
                     uiImage.sprite = noneUISprite;
                 }
@@ -130,19 +148,19 @@ public class UIManager : Singleton<UIManager>
 
             case UIType.FarmField:
 
-                if (!GameManager.Instance.currentInteractable.GetSeed())
+                if (!gameManager.currentInteractable.GetSeed())
                 {
                     uiImage.sprite = farmFieldUI[0];
                 }
-                else if (GameManager.Instance.currentInteractable.GetComplete())
+                else if (gameManager.currentInteractable.GetComplete())
                 {
                     uiImage.sprite = farmFieldUI[2];
                 }
-                else if (!GameManager.Instance.currentInteractable.GetWater())
+                else if (!gameManager.currentInteractable.GetWater())
                 {
                     uiImage.sprite = farmFieldUI[1];
                 }
-                else if (GameManager.Instance.currentInteractable.GetSeed() && GameManager.Instance.currentInteractable.GetWater())
+                else if (gameManager.currentInteractable.GetSeed() && gameManager.currentInteractable.GetWater())
                 {
                     uiImage.sprite = noneUISprite;
                 }
@@ -157,11 +175,11 @@ public class UIManager : Singleton<UIManager>
 
                 if (!ResearchManager.Instance.isUsePickax || InventoryManager.GetItemCount(InventoryItem.Pickax) <= 0)
                 {
-                    uiImage.sprite = GameManager.Instance.currentInteractable.GetStone() ? stoneUI2 : noneUISprite;
+                    uiImage.sprite = gameManager.currentInteractable.GetStone() ? stoneUI2 : noneUISprite;
                 }
                 else
                 {
-                    uiImage.sprite = GameManager.Instance.currentInteractable.GetStone() ? stoneUI : uiSprites[(int)uiType];
+                    uiImage.sprite = gameManager.currentInteractable.GetStone() ? stoneUI : uiSprites[(int)uiType];
                 }
 
                 break;
@@ -183,11 +201,11 @@ public class UIManager : Singleton<UIManager>
 
                 if (!ResearchManager.Instance.isUseAxe || InventoryManager.GetItemCount(InventoryItem.Axe) <= 0)
                 {
-                    uiImage.sprite = GameManager.Instance.currentInteractable.GetTree() ? tree2UI : noneUISprite;
+                    uiImage.sprite = gameManager.currentInteractable.GetTree() ? tree2UI : noneUISprite;
                 }
                 else
                 {
-                    uiImage.sprite = GameManager.Instance.currentInteractable.GetTree() ? treeUI : uiSprites[(int)uiType];
+                    uiImage.sprite = gameManager.currentInteractable.GetTree() ? treeUI : uiSprites[(int)uiType];
                 }
 
                 break;
@@ -263,7 +281,7 @@ public class UIManager : Singleton<UIManager>
             || InventoryManager.GetItemCount(InventoryItem.Stone) < 10
             || InventoryManager.GetItemCount(InventoryItem.Iron) < 10
             || GameManager.topUICount[TopUI.Electricity] < 20
-            || !GameManager.Instance.isLight)
+            || !gameManager.isLight)
         {
             return;
         }

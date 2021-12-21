@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class ResearchManager : Singleton<ResearchManager>
 {
@@ -42,6 +43,14 @@ public class ResearchManager : Singleton<ResearchManager>
     public bool isBuildingGenerator { get; private set; } // 발전기 건설 가능
     public bool isbuildingLighthouse { get; private set; } // 등대 건설 가능
     public bool isFixingElectricity { get; private set; } // 전기 고치기 가능
+
+    private void Start()
+    {
+        if (GameManager.Instance.gameData.isStart)
+        {
+            ReserchPoint = GameManager.Instance.gameData.reserchPoint;
+        }
+    }
 
     public void ToolLevel1Upgrade() //도구 레벨1 업그레이드
     {

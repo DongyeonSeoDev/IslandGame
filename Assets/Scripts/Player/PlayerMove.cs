@@ -45,6 +45,9 @@ public class PlayerMove : MonoBehaviour
 
     public bool isEvent = false; // 이벤트 관리
 
+    private GameManager gameManager = null;
+    private GameData gameData = null;
+
     private void Awake()
     {
         // 변수 초기화
@@ -54,14 +57,26 @@ public class PlayerMove : MonoBehaviour
 
     private void Start()
     {
-        animator.SetTrigger(hashGetUp); // 애니메이션 실행
-        animator.speed = 0f; // 애니메이션 멈춤
+        gameManager = GameManager.Instance;
+        gameData = gameManager.gameData;
 
-        agent.isStopped = true;
+        if (!gameData.isStart)
+        {
+            animator.SetTrigger(hashGetUp); // 애니메이션 실행
+            animator.speed = 0f; // 애니메이션 멈춤
 
-        Invoke("StartAnimation", GameManager.Instance.gameStartTime); // 게임이 시작된 후에
+            agent.isStopped = true;
 
-        GameManager.Instance.gameOverEvent += () => // 게임오버 이벤트 설정
+            Invoke("StartAnimation", gameManager.gameStartTime); // 게임이 시작된 후에
+        }
+        else
+        {
+            isStart = true;
+            transform.position = gameData.playerPosition;
+            TargetPosition = transform.position;
+        }
+
+        gameManager.gameOverEvent += () => // 게임오버 이벤트 설정
         {
             IsDie();
         };

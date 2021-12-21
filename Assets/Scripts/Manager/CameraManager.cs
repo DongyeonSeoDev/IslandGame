@@ -42,18 +42,31 @@ public class CameraManager : MonoBehaviour
     private bool gameStart = false; //게임 시작
     private float lastFieldOfView = 0f; //마지막 카메라 확대 값
 
+    private GameManager gameManager = null;
+
     private void Start()
     {
         // 기본값 넣기
         mainCam = Camera.main;
+        gameManager = GameManager.Instance;
 
-        GameManager.Instance.gameOverEvent += () =>
+        gameManager.gameOverEvent += () =>
         {
             gameStart = false;
         };
 
-        // 게임 시작
-        Invoke("GameStart", GameManager.Instance.gameStartTime + cameraStartTime); 
+        if (!gameManager.gameData.isStart)
+        {
+            // 게임 시작
+            Invoke("GameStart", gameManager.gameStartTime + cameraStartTime);
+        }
+        else
+        {
+            mainCam.fieldOfView = targetFieldOfView;
+            lastMousePosition = Input.mousePosition;
+            lastRotationMousePosition = Input.mousePosition;
+            gameStart = true;
+        }
     }
 
     private void GameStart()
@@ -79,21 +92,21 @@ public class CameraManager : MonoBehaviour
             ClickObject();
 
             // 설치가 가능한 오브젝트가 있다면
-            if (GameManager.Instance.buildObject != null)
+            if (gameManager.buildObject != null)
             {
-                GameObject eventObject = GameManager.Instance.buildObject;
-                GameManager.Instance.buildObject = null;
+                GameObject eventObject = gameManager.buildObject;
+                gameManager.buildObject = null;
 
                 InteractableObject eventInteractableObject = null;
 
                 // 오브젝트를 위치에 설치하고, 오브젝트를 활성화한다.
-                if (!GameManager.Instance.isBoat)
+                if (!gameManager.isBoat)
                 {
                     eventInteractableObject = eventObject.GetComponent<InteractableObject>();
 
                     eventInteractableObject.enabled = true;
 
-                    GameManager.Instance.PlayerMove(() =>
+                    gameManager.PlayerMove(() =>
                     {
                         eventObject.GetComponent<Collider>().enabled = true;
                         eventObject.SetActive(true);
@@ -107,7 +120,7 @@ public class CameraManager : MonoBehaviour
 
                     eventInteractableObject.enabled = true;
 
-                    GameManager.Instance.PlayerMove(() =>
+                    gameManager.PlayerMove(() =>
                     {
                         eventObject.GetComponentInChildren<Collider>().enabled = true;
                         eventObject.GetComponent<WaterFloat>().enabled = true;
@@ -117,8 +130,8 @@ public class CameraManager : MonoBehaviour
                     eventObject.SetActive(false);
                 }
 
-                GameManager.Instance.isSunPower = false;
-                GameManager.Instance.isBoat = false;
+                gameManager.isSunPower = false;
+                gameManager.isBoat = false;
             }
         }
 
@@ -166,22 +179,22 @@ public class CameraManager : MonoBehaviour
         IInteractable interactable = Physics.Raycast(ray, out var hit) ? hit.collider.GetComponent<IInteractable>() : null;
 
         // 설치 가능한 오브젝트가 있고, 설치가 가능한 위치라면 그 위치로 이동
-        if (GameManager.Instance.buildObject != null && interactable == null)
+        if (gameManager.buildObject != null && interactable == null)
         {
-            if (GameManager.Instance.isSunPower)
+            if (gameManager.isSunPower)
             {
-                GameManager.Instance.buildObject.transform.position = hit.point + new Vector3(0f, 1f, 0f);
+                gameManager.buildObject.transform.position = hit.point + new Vector3(0f, 1f, 0f);
             }
             else
             {
-                GameManager.Instance.buildObject.transform.position = hit.point;
+                gameManager.buildObject.transform.position = hit.point;
             }
         }
 
         // 클릭해서 실행한 것이면 플레이어가 이동함
         if (isClick)
         {
-            GameManager.Instance.PlayerMove(() =>
+            gameManager.PlayerMove(() =>
             {
 
             }, false, interactable == null ? hit.point : interactable.GetWalkPosition());
@@ -199,7 +212,7 @@ public class CameraManager : MonoBehaviour
         // 상호작용이 가능하다면 상호작용
         if (!(interactable is null))
         {
-            GameManager.Instance.currentInteractable = interactable;
+            gameManager.currentInteractable = interactable;
 
             interactable.Interact();
         }
