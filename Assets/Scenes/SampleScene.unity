@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: cd7a7d7c34b24b244a80c457dbcd6568, type: 2}
   m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
@@ -9477,8 +9477,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 892381368}
-  m_LocalRotation: {x: -0.41240615, y: 0.028290106, z: 0.015606707, w: 0.91042703}
-  m_LocalPosition: {x: -9.224784, y: -29.92416, z: -42.7308}
+  m_LocalRotation: {x: -0.33101258, y: 0.01825066, z: 0.009564229, w: 0.9434014}
+  m_LocalPosition: {x: -0.22107983, y: -57.6877, z: -86.27522}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -9586,6 +9586,8 @@ MonoBehaviour:
   bakeValues: []
   walkTransform: {fileID: 1275229861}
   uiType: 10
+  isStone: 1
+  isTree: 1
   seed: {fileID: 0}
   tomato: {fileID: 0}
   material: {fileID: 0}
@@ -9593,8 +9595,6 @@ MonoBehaviour:
   isFarmFieldSeed: 0
   isFarmFieldWater: 0
   isFarmFieldComplete: 0
-  isStone: 1
-  isTree: 1
 --- !u!65 &919240066
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -18967,8 +18967,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1553622001}
-  m_LocalRotation: {x: -0.41240615, y: 0.028290106, z: 0.015606707, w: 0.91042703}
-  m_LocalPosition: {x: -9.224784, y: -29.92416, z: -42.7308}
+  m_LocalRotation: {x: -0.33101258, y: 0.01825066, z: 0.009564229, w: 0.9434014}
+  m_LocalPosition: {x: -0.22107983, y: -57.6877, z: -86.27522}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

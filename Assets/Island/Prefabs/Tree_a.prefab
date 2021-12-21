@@ -521,6 +521,8 @@ MonoBehaviour:
     - {x: 0.8064439, y: -0.57735026, z: 0.12772948}
   walkTransform: {fileID: 1136611533589257493}
   uiType: 0
+  isStone: 0
+  isTree: 0
   seed: {fileID: 0}
   tomato: {fileID: 0}
   material: {fileID: 0}
@@ -528,8 +530,6 @@ MonoBehaviour:
   isFarmFieldSeed: 0
   isFarmFieldWater: 0
   isFarmFieldComplete: 0
-  isStone: 0
-  isTree: 0
 --- !u!65 &5393577513525228679
 BoxCollider:
   m_ObjectHideFlags: 0
