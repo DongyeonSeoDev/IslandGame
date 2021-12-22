@@ -181,6 +181,7 @@ public class InteractableObject : Outline, IInteractable
                     InventoryManager.AddItem(InventoryItem.Iron, 5);
                     InventoryManager.AddItem(InventoryItem.PartsBox, 1);
                     GameManager.topUICount[TopUI.Food] += 10;
+                    GameManager.topUICount[TopUI.Water] += 100;
 
                     ResearchManager.Instance.ReserchPoint += 1;
                 });

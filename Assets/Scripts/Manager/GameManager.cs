@@ -7,7 +7,7 @@ public class GameManager : Singleton<GameManager>
     public static TopUICount topUICount = new TopUICount(); //UI 카운트 관련 변수
 
     // 코루틴에서 사용할 변수 미리 정의
-    private WaitForSeconds ws = new WaitForSeconds(3f);
+    private WaitForSeconds ws = new WaitForSeconds(5f);
     private WaitForSeconds startDelay;
 
     public event Action gameOverEvent; // 게임 오버시 이벤트 실행

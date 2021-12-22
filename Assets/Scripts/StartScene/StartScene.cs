@@ -6,14 +6,30 @@ using UnityEngine.UI;
 
 public class StartScene : MonoBehaviour
 {
-    public Button startButton;
+    public Button newButton;
+    public Button continueButton;
     public string gameSceneName;
 
     private void Awake()
     {
-        startButton.onClick.AddListener(() =>
+        newButton.onClick.AddListener(() =>
         {
+            if (SaveAndLoadManager.ExistsPath())
+            {
+                SaveAndLoadManager.DeleteFile();
+            }
+
             SceneManager.LoadScene(gameSceneName);
         });
+
+        if (SaveAndLoadManager.ExistsPath())
+        {
+            continueButton.interactable = true;
+
+            continueButton.onClick.AddListener(() =>
+            {
+                SceneManager.LoadScene(gameSceneName);
+            });
+        }
     }
 }

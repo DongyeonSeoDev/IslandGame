@@ -45,7 +45,7 @@ public class RaftMove : MonoBehaviour
 
         isMove = !isMove; // 이동 변경
         
-        if (isMove) // true라면  
+        if (isMove) // true라면
         {
             playerMove.gameObject.SetActive(false);
             playerObject.SetActive(true);

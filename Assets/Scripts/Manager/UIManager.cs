@@ -295,6 +295,7 @@ public class UIManager : Singleton<UIManager>
 
         //게임 클리어
         clearPanel.SetActive(true);
+        SaveAndLoadManager.DeleteFile();
     }
 
     //UI, 스피드, 상태, 끝나고 실행할 함수를 넣으면 자동으로 페이드를 실행해주는 함수

@@ -119,5 +119,23 @@ public class BuildUI : ChangeUI // 건설과 관련된 UI를 여기서 관리함
 
             GameManager.Instance.buildObject = Instantiate(buildObject[5]);
         });
+
+        buildButton[6].onClick.AddListener(() => // 건물 6번 설치
+        {
+            if (!ResearchManager.Instance.isBuildingWooden
+            || InventoryManager.GetItemCount(InventoryItem.Tree) < 10
+            || InventoryManager.GetItemCount(InventoryItem.Stone) < 10)
+            {
+                return;
+            }
+
+            Debug.Log("설치");
+            ResearchManager.Instance.ReserchPoint += 1;
+
+            InventoryManager.UseItem(InventoryItem.Tree, 10);
+            InventoryManager.UseItem(InventoryItem.Stone, 10);
+
+            GameManager.Instance.buildObject = Instantiate(buildObject[6]);
+        });
     }
 }

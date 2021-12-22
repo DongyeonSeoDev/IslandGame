@@ -14,7 +14,7 @@ public static class SaveAndLoadManager
 
     public static GameData Load()
     {
-        if (File.Exists(path))
+        if (ExistsPath())
         {
             string data = File.ReadAllText(path);
             GameData gameData = JsonUtility.FromJson<GameData>(data);
@@ -26,5 +26,15 @@ public static class SaveAndLoadManager
         }
 
         return new GameData { isStart = false };
+    }
+
+    public static bool ExistsPath()
+    {
+        return File.Exists(path);
+    }
+
+    public static void DeleteFile()
+    {
+        File.Delete(path);
     }
 }

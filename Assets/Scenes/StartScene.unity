@@ -201,7 +201,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 301853441}
   m_OnClick:
     m_PersistentCalls:
@@ -352,7 +352,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab2e9610a5aeb2948a0bd85740f2f60a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startButton: {fileID: 1894661009}
+  newButton: {fileID: 1894661009}
+  continueButton: {fileID: 301853440}
   gameSceneName: SampleScene
 --- !u!4 &770719023
 Transform:
