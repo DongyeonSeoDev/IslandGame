@@ -123,7 +123,7 @@ public class GameManager : Singleton<GameManager>
             //플레이어 이동 실행
             playerMove.Event((Vector3)targetPosition);
 
-            SaveAndLoadManager.Save(new GameData() { isStart = true, playerPosition = playerMove.transform.position, items = InventoryManager.Instance.items, topUICount = topUICount.GetAllTopUICount(), reserchPoint = ResearchManager.Instance.ReserchPoint });
+            SaveAndLoadManager.Save(new GameData() { isStart = true, playerPosition = playerMove.transform.position, items = InventoryManager.Instance.items, topUICount = topUICount.GetAllTopUICount(), reserchPoint = ResearchManager.Instance.ReserchPoint, reserchLevel = ResearchManager.Instance.researchUI.GetReserchData(), raftDatas =  SpawnSaveObject.GetRaftDatas()});
         }
     }
 

@@ -8,9 +8,44 @@ public class ResearchUI : ChangeUI // 연구 관련된 UI를 모아둔 클래스
     [SerializeField] Research[] reserch; // 연구 종류
     [SerializeField] private Text reserchPointText = null; // 연구 포인트 텍스트
 
+    private GameManager gameManager = null;
+    private GameData gameData = null;
+
     protected override void Start()
     {
         base.Start();
+
+        gameManager = GameManager.Instance;
+        gameData = gameManager.gameData;
+
+        if (gameData.isStart)
+        {
+            for (int i = 0; i < reserch.Length; i++)
+            {
+                if (gameData.reserchLevel[i] >= 1)
+                {
+                    reserch[i].Level1();
+                    ButtonClick(reserch[i].buttons[0]);
+
+                    if (gameData.reserchLevel[i] >= 2)
+                    {
+                        reserch[i].Level2();
+                        ButtonClick(reserch[i].buttons[1]);
+
+                        if (gameData.reserchLevel[i] >= 3)
+                        {
+                            reserch[i].Level3();
+                            ButtonClick(reserch[i].buttons[2]);
+                        }
+                    }
+                }
+            }
+        }
+
+        if (gameData.isStart)
+        {
+            ResearchManager.Instance.ReserchPoint = GameManager.Instance.gameData.reserchPoint;
+        }
 
         for (int i = 0; i < reserch.Length; i++) // 모든 연구를 가져옴
         {
@@ -66,5 +101,17 @@ public class ResearchUI : ChangeUI // 연구 관련된 UI를 모아둔 클래스
         {
             reserchPointText.text = reserchPoint.ToString();
         }
+    }
+
+    public int[] GetReserchData()
+    {
+        int[] reserchData = new int[reserch.Length];
+
+        for (int i = 0; i < reserch.Length; i++)
+        {
+            reserchData[i] = reserch[i].Level;
+        }
+
+        return reserchData;
     }
 }

@@ -72,8 +72,9 @@ public class PlayerMove : MonoBehaviour
         else
         {
             isStart = true;
+            agent.enabled = false;
             transform.position = gameData.playerPosition;
-            TargetPosition = transform.position;
+            agent.enabled = true;
         }
 
         gameManager.gameOverEvent += () => // 게임오버 이벤트 설정

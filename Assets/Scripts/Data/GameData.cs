@@ -9,4 +9,7 @@ public class GameData
 
     public Item[] items;
     public int[] topUICount;
+    public int[] reserchLevel;
+
+    public RaftData[] raftDatas;
 }
