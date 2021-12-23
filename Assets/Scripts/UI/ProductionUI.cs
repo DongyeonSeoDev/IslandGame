@@ -54,6 +54,7 @@ public class ProductionUI : ChangeUI // 제작 관련된 UI를 모아둔 클래스
             {
                 if (InventoryManager.GetItemCount(needItem.needItems[i]) < needItem.count[i])
                 {
+                    Tooltip.Instance.Show("재료가 부족합니다.", 1f);
                     return;
                 }
             }

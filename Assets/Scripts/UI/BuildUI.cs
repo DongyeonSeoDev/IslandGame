@@ -12,11 +12,17 @@ public class BuildUI : ChangeUI // 건설과 관련된 UI를 여기서 관리함
 
         buildButton[0].onClick.AddListener(() => // 건물 0번 설치
         {
-            if (!ResearchManager.Instance.isBuildingIron // 재료 검시
-            || InventoryManager.GetItemCount(InventoryItem.Tree) < 10
+            if (!ResearchManager.Instance.isBuildingIron)
+            {
+                Tooltip.Instance.Show("철 건물 건설 연구가 되어있지 않습니다.", 1f);
+                return;
+            }
+
+            if (InventoryManager.GetItemCount(InventoryItem.Tree) < 10 // 재료 검사
             || InventoryManager.GetItemCount(InventoryItem.Stone) < 5
             || InventoryManager.GetItemCount(InventoryItem.Iron) < 2)
             {
+                Tooltip.Instance.Show("재료가 부족합니다.", 1f);
                 return;
             }
 
@@ -32,12 +38,18 @@ public class BuildUI : ChangeUI // 건설과 관련된 UI를 여기서 관리함
 
         buildButton[1].onClick.AddListener(() => // 건물 1번 설치
         {
-            if (!ResearchManager.Instance.isbuildingLighthouse
-            || InventoryManager.GetItemCount(InventoryItem.Tree) < 15
+            if (!ResearchManager.Instance.isbuildingLighthouse)
+            {
+                Tooltip.Instance.Show("등대 건설 연구가 되어있지 않습니다.", 1f);
+                return;
+            }
+
+            if (InventoryManager.GetItemCount(InventoryItem.Tree) < 15
             || InventoryManager.GetItemCount(InventoryItem.Stone) < 5
             || InventoryManager.GetItemCount(InventoryItem.Iron) < 1
             || GameManager.topUICount[TopUI.Electricity] < 20)
             {
+                Tooltip.Instance.Show("재료가 부족합니다.", 1f);
                 return;
             }
 
@@ -54,8 +66,15 @@ public class BuildUI : ChangeUI // 건설과 관련된 UI를 여기서 관리함
 
         buildButton[2].onClick.AddListener(() => // 건물 2번 설치
         {
-            if (!ResearchManager.Instance.isBuildingWooden || !ResearchManager.Instance.farmAble || !InventoryManager.UseItem(InventoryItem.Tree, 5))
+            if (!ResearchManager.Instance.isBuildingWooden)
             {
+                Tooltip.Instance.Show("나무 건물 건설 연구가 되어있지 않습니다.", 1f);
+                return;
+            }
+
+            if (!ResearchManager.Instance.farmAble || !InventoryManager.UseItem(InventoryItem.Tree, 5))
+            {
+                Tooltip.Instance.Show("재료가 부족합니다.", 1f);
                 return;
             }
 
@@ -67,11 +86,17 @@ public class BuildUI : ChangeUI // 건설과 관련된 UI를 여기서 관리함
 
         buildButton[3].onClick.AddListener(() => // 건물 3번 설치
         {
-            if (!ResearchManager.Instance.isBuildingGenerator
-            || InventoryManager.GetItemCount(InventoryItem.Tree) < 10
+            if (!ResearchManager.Instance.isBuildingGenerator)
+            {
+                Tooltip.Instance.Show("발전기 건설 연구가 되어있지 않습니다.", 1f);
+                return;
+            }
+
+            if (InventoryManager.GetItemCount(InventoryItem.Tree) < 10
             || InventoryManager.GetItemCount(InventoryItem.Stone) < 5
             || InventoryManager.GetItemCount(InventoryItem.Iron) < 2)
             {
+                Tooltip.Instance.Show("재료가 부족합니다.", 1f);
                 return;
             }
 
@@ -88,8 +113,15 @@ public class BuildUI : ChangeUI // 건설과 관련된 UI를 여기서 관리함
 
         buildButton[4].onClick.AddListener(() => // 건물 4번 설치
         {
-            if (!ResearchManager.Instance.isBuildingWooden || !InventoryManager.UseItem(InventoryItem.Tree, 10))
+            if (!ResearchManager.Instance.isBuildingWooden)
             {
+                Tooltip.Instance.Show("나무 건물 건설 연구가 되어있지 않습니다.", 1f);
+                return;
+            }
+
+            if (!InventoryManager.UseItem(InventoryItem.Tree, 10))
+            {
+                Tooltip.Instance.Show("재료가 부족합니다.", 1f);
                 return;
             }
 
@@ -102,11 +134,17 @@ public class BuildUI : ChangeUI // 건설과 관련된 UI를 여기서 관리함
 
         buildButton[5].onClick.AddListener(() => // 건물 5번 설치
         {
-            if (!ResearchManager.Instance.isBuildingWooden 
-            || InventoryManager.GetItemCount(InventoryItem.Tree) < 15
+            if (!ResearchManager.Instance.isBuildingWooden)
+            {
+                Tooltip.Instance.Show("나무 건물 건설 연구가 되어있지 않습니다.", 1f);
+                return;
+            }
+
+            if (InventoryManager.GetItemCount(InventoryItem.Tree) < 15
             || InventoryManager.GetItemCount(InventoryItem.Stone) < 5
             || InventoryManager.GetItemCount(InventoryItem.Iron) < 1)
             {
+                Tooltip.Instance.Show("재료가 부족합니다.", 1f);
                 return;
             }
 
@@ -122,10 +160,15 @@ public class BuildUI : ChangeUI // 건설과 관련된 UI를 여기서 관리함
 
         buildButton[6].onClick.AddListener(() => // 건물 6번 설치
         {
-            if (!ResearchManager.Instance.isBuildingWooden
-            || InventoryManager.GetItemCount(InventoryItem.Tree) < 10
+            if (!ResearchManager.Instance.isBuildingWooden)
+            {
+                Tooltip.Instance.Show("나무 건물 건설 연구가 되어있지 않습니다.", 1f);
+            }
+
+            if (InventoryManager.GetItemCount(InventoryItem.Tree) < 10
             || InventoryManager.GetItemCount(InventoryItem.Stone) < 10)
             {
+                Tooltip.Instance.Show("재료가 부족합니다.", 1f);
                 return;
             }
 

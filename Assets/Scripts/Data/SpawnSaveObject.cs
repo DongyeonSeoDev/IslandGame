@@ -240,7 +240,7 @@ public class SpawnSaveObject : Singleton<SpawnSaveObject>
     {
         FarmData[] farmData = new FarmData[Instance.farms.Count];
 
-        for (int i = 0; i < Instance.sunPowers.Count; i++)
+        for (int i = 0; i < Instance.farms.Count; i++)
         {
             farmData[i] = new FarmData()
             {

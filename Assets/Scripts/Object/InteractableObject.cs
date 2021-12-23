@@ -149,6 +149,7 @@ public class InteractableObject : Outline, IInteractable
 
                 if (!InventoryManager.UseItem(InventoryItem.NoWaterBottle, 1))
                 {
+                    Tooltip.Instance.Show("작동시키려면 정제되지 않은 물이 없는 물통 1개가 필요합니다.", 1f);
                     return;
                 }
 
@@ -162,8 +163,15 @@ public class InteractableObject : Outline, IInteractable
                 break;
             case UIType.LightHouse:
 
-                if (InventoryManager.GetItemCount(InventoryItem.ElectricalParts) <= 0 || InventoryManager.GetItemCount(InventoryItem.ElectricWires) <= 0 || GameManager.Instance.isLight)
+                if (InventoryManager.GetItemCount(InventoryItem.ElectricalParts) <= 0 || InventoryManager.GetItemCount(InventoryItem.ElectricWires) <= 0)
                 {
+                    Tooltip.Instance.Show("작동시키려면 전기부품과 전기선이 1개씩 필요합니다.", 1f);
+                    return;
+                }
+
+                if (GameManager.Instance.isLight)
+                {
+                    Tooltip.Instance.Show("등대가 이미 작동되고 있습니다.", 1f);
                     return;
                 }
 
@@ -253,6 +261,7 @@ public class InteractableObject : Outline, IInteractable
 
                 if (InventoryManager.GetItemCount(InventoryItem.ElectricalParts) <= 0 || InventoryManager.GetItemCount(InventoryItem.ElectricWires) <= 0)
                 {
+                    Tooltip.Instance.Show("작동시키려면 전기부품과 전기선이 1개씩 필요합니다.", 1f);
                     return;
                 }
 
@@ -290,6 +299,7 @@ public class InteractableObject : Outline, IInteractable
 
                 if (!InventoryManager.UseItem(InventoryItem.UnrefinedWaterBottle, 1))
                 {
+                    Tooltip.Instance.Show("작동시키려면 정제되지 않은 물이 담긴 물통 1개가 필요합니다.", 1f);
                     return;
                 }
 

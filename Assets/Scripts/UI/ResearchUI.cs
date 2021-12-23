@@ -57,7 +57,15 @@ public class ResearchUI : ChangeUI // 연구 관련된 UI를 모아둔 클래스
 
                 reserch[num].buttons[0].onClick.AddListener(() => // 레벨 1 업그레이드
                 {
-                    if (reserch[num].Level1Condition())
+                    if (reserch[num].Level != 0)
+                    {
+                        Tooltip.Instance.Show("이전 연구가 되어있지 않습니다.", 1f);
+                    }
+                    else if (reserch[num].usePoint[0] > ResearchManager.Instance.ReserchPoint)
+                    {
+                        Tooltip.Instance.Show("연구 포인트가 부족합니다.", 1f);
+                    }
+                    else
                     {
                         reserch[num].Level1();
                         ButtonClick(reserch[num].buttons[0]);
@@ -66,7 +74,15 @@ public class ResearchUI : ChangeUI // 연구 관련된 UI를 모아둔 클래스
 
                 reserch[num].buttons[1].onClick.AddListener(() => // 레벨 2 업그레이드
                 {
-                    if (reserch[num].Level2Condition())
+                    if (reserch[num].Level != 1)
+                    {
+                        Tooltip.Instance.Show("이전 연구가 되어있지 않습니다.", 1f);
+                    }
+                    else if (reserch[num].usePoint[1] > ResearchManager.Instance.ReserchPoint)
+                    {
+                        Tooltip.Instance.Show("연구 포인트가 부족합니다.", 1f);
+                    }
+                    else
                     {
                         reserch[num].Level2();
                         ButtonClick(reserch[num].buttons[1]);
@@ -75,7 +91,15 @@ public class ResearchUI : ChangeUI // 연구 관련된 UI를 모아둔 클래스
 
                 reserch[num].buttons[2].onClick.AddListener(() => // 레벨 3 업그레이드
                 {
-                    if (reserch[num].Level3Condition())
+                    if (reserch[num].Level != 2)
+                    {
+                        Tooltip.Instance.Show("이전 연구가 되어있지 않습니다.", 1f);
+                    }
+                    else if (reserch[num].usePoint[2] > ResearchManager.Instance.ReserchPoint)
+                    {
+                        Tooltip.Instance.Show("연구 포인트가 부족합니다.", 1f);
+                    }
+                    else
                     {
                         reserch[num].Level3();
                         ButtonClick(reserch[num].buttons[2]);
