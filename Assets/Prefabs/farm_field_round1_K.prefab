@@ -113,7 +113,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1829997782350125674}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -7.289, y: 1.889, z: -5.42}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 332771483}
@@ -189,17 +189,21 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
+  id: 4
   walkTransform: {fileID: 440186455413122216}
   uiType: 6
+  isUseSunPower: 0
+  isStone: 0
+  isTree: 0
   seed: {fileID: 332771482}
   tomato: {fileID: 1934159256}
   material: {fileID: 2100000, guid: a4b70e1d4507d544b8a6c7ba63f24ffd, type: 2}
   currentMaterial: {fileID: 0}
+  waterCount: 0
   isFarmFieldSeed: 0
   isFarmFieldWater: 0
   isFarmFieldComplete: 0
-  isStone: 0
-  isTree: 0
+  isWaterTime: 0
 --- !u!65 &7915435042276955524
 BoxCollider:
   m_ObjectHideFlags: 0

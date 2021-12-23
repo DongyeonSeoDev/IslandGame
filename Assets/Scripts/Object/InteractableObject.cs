@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class InteractableObject : Outline, IInteractable
 {
+    public int id = -1;
+
     [SerializeField] private Transform walkTransform; // 플레이어 이동 위치
 
     private PlayerMove playerMove = null; // 플레이어 클래스
@@ -10,7 +12,7 @@ public class InteractableObject : Outline, IInteractable
 
     public UIType uiType = UIType.None; // 설치 건물 종류
 
-    private bool isUseSunPower = false; // 발전기를 사용했는지
+    public bool isUseSunPower = false; // 발전기를 사용했는지
     public bool isStone = true; // 돌을 얻을 수 있는지
     public bool isTree = true; // 나무를 얻을 수 있는지
 
@@ -20,11 +22,12 @@ public class InteractableObject : Outline, IInteractable
     public Material material; // 물에 젖은 메테리얼
     public Material currentMaterial; // 현재 메테리얼
 
-    private int waterCount = 0; // 물을 준 횟수
+    public int waterCount = 0; // 물을 준 횟수
 
     public bool isFarmFieldSeed = false; //씨앗 상태
     public bool isFarmFieldWater = false; // 물 상태
     public bool isFarmFieldComplete = false; // 농사 완료
+    public bool isWaterTime = false; // 물 대기중인지 확인
 
     protected override void Awake()
     {
@@ -32,6 +35,20 @@ public class InteractableObject : Outline, IInteractable
         base.Awake();
 
         playerMove = FindObjectOfType<PlayerMove>();
+
+        if (id >= 0)
+        {
+            SpawnSaveObject.Instance.spawnData.Add(this);
+        }
+
+        if (id == 4)
+        {
+            SpawnSaveObject.Instance.farms.Add(this);
+        }
+        else if (id == 5)
+        {
+            SpawnSaveObject.Instance.sunPowers.Add(this);
+        }
     }
 
     public void EnterFocus() // 포커스 안일때
@@ -104,7 +121,7 @@ public class InteractableObject : Outline, IInteractable
                 GameManager.Instance.PlayerMove(() =>
                 {
                     gameObject.SetActive(false);
-                    InventoryManager.AddItem(InventoryItem.Tree, 5);
+                    InventoryManager.AddItem(InventoryItem.Tree, 7);
                     Debug.Log("tree 제거");
 
                     ResearchManager.Instance.ReserchPoint += 1;
@@ -145,7 +162,7 @@ public class InteractableObject : Outline, IInteractable
                 break;
             case UIType.LightHouse:
 
-                if (InventoryManager.GetItemCount(InventoryItem.ElectricalParts) <= 0 || InventoryManager.GetItemCount(InventoryItem.ElectricWires) <= 0)
+                if (InventoryManager.GetItemCount(InventoryItem.ElectricalParts) <= 0 || InventoryManager.GetItemCount(InventoryItem.ElectricWires) <= 0 || GameManager.Instance.isLight)
                 {
                     return;
                 }
@@ -309,9 +326,7 @@ public class InteractableObject : Outline, IInteractable
                         return;
                     }
 
-                    MeshRenderer mesh = GetComponent<MeshRenderer>();
-                    currentMaterial = mesh.material;
-                    mesh.material = material;
+                    WaterMaterialChange();
                     isFarmFieldWater = true;
 
                     waterCount++;
@@ -324,7 +339,8 @@ public class InteractableObject : Outline, IInteractable
                     }
                     else
                     {
-                        Invoke("ChangeWater", 30);
+                        isWaterTime = true;
+                        StartWaterTime();
                     }
 
                     Debug.Log("물");
@@ -350,7 +366,8 @@ public class InteractableObject : Outline, IInteractable
                     InventoryManager.AddItem(InventoryItem.Branch, 2);
                     InventoryManager.AddItem(InventoryItem.Leaf, 1);
                     InventoryManager.AddItem(InventoryItem.Stem, 2);
-                    Invoke("Wood", 30f);
+
+                    WoodTime();
 
                     ResearchManager.Instance.ReserchPoint += 1;
                 });
@@ -371,7 +388,7 @@ public class InteractableObject : Outline, IInteractable
                     isStone = false;
 
                     InventoryManager.AddItem(InventoryItem.FlakesOfStone, 1);
-                    Invoke("Stone", 30f);
+                    StoneTime();
 
                     ResearchManager.Instance.ReserchPoint += 1;
                 });
@@ -384,6 +401,16 @@ public class InteractableObject : Outline, IInteractable
         Debug.Log("닫힘"); // 왼쪽 버튼은 창을 닫는 버튼임
     }
 
+    public void StoneTime()
+    {
+        Invoke("Stone", 30f);
+    }
+
+    public void WoodTime()
+    {
+        Invoke("Wood", 30f);
+    }
+
     private void Wood() // 나무 확인
     {
         isTree = true;
@@ -394,12 +421,35 @@ public class InteractableObject : Outline, IInteractable
         isStone = true;
     }
 
+    public void StartWaterTime()
+    {
+        Invoke("ChangeWater", 30);
+    }
+
     private void ChangeWater() // 물 메테리얼 변경
     {
+        isWaterTime = false;
         isFarmFieldWater = false;
 
         MeshRenderer mesh = GetComponent<MeshRenderer>();
         mesh.material = currentMaterial;
+    }
+
+    public void SeedChange()
+    {
+        seed.SetActive(true);
+    }
+
+    public void WaterMaterialChange()
+    {
+        MeshRenderer mesh = GetComponent<MeshRenderer>();
+        currentMaterial = mesh.material;
+        mesh.material = material;
+    }
+
+    public void CompleteChange()
+    {
+        tomato.SetActive(true);
     }
 
     public bool GetUseSunPower() // 발전소가 사용 가능 한지

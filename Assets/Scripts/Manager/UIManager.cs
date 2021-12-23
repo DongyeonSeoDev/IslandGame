@@ -210,6 +210,19 @@ public class UIManager : Singleton<UIManager>
 
                 break;
 
+            case UIType.LightHouse:
+
+                if (GameManager.Instance.isLight)
+                {
+                    uiImage.sprite = noneUISprite;
+                }
+                else
+                {
+                    DefaultSprite(uiType);
+                }
+
+                break;
+
             default:
                 DefaultSprite(uiType);
                 break;

@@ -41,13 +41,15 @@ public class GameManager : Singleton<GameManager>
             {
                 topUICount[(TopUI)i] = gameData.topUICount[i];
             }
+
+            isLight = gameData.isLight;
         }
         else
         {
             topUICount[TopUI.Food] = 10;
             topUICount[TopUI.Water] = 100;
         }
-
+        
         // 변수 초기화
         startDelay = new WaitForSeconds(gameStartTime);
 
@@ -123,7 +125,7 @@ public class GameManager : Singleton<GameManager>
             //플레이어 이동 실행
             playerMove.Event((Vector3)targetPosition);
 
-            SaveAndLoadManager.Save(new GameData() { isStart = true, playerPosition = playerMove.transform.position, items = InventoryManager.Instance.items, topUICount = topUICount.GetAllTopUICount(), reserchPoint = ResearchManager.Instance.ReserchPoint, reserchLevel = ResearchManager.Instance.researchUI.GetReserchData(), raftDatas =  SpawnSaveObject.GetRaftDatas()});
+            SaveAndLoadManager.Save(new GameData() { isStart = true, playerPosition = playerMove.transform.position, items = InventoryManager.Instance.items, topUICount = topUICount.GetAllTopUICount(), reserchPoint = ResearchManager.Instance.ReserchPoint, reserchLevel = ResearchManager.Instance.researchUI.GetReserchData(), raftDatas = SpawnSaveObject.GetRaftDatas(), objectId = SpawnSaveObject.GetSpawnIds(), objectPosition = SpawnSaveObject.GetSpawnPosition(), isLight = isLight, sunPowerData = SpawnSaveObject.GetSunPower(), farmData = SpawnSaveObject.GetFarmData(), resources = SpawnSaveObject.GetSpawnResourceData() });
         }
     }
 

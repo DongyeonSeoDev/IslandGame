@@ -246,8 +246,11 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
+  id: 0
   walkTransform: {fileID: 2358270738487622635}
   uiType: 2
+  isStone: 1
+  isTree: 1
   seed: {fileID: 0}
   tomato: {fileID: 0}
   material: {fileID: 0}
@@ -255,8 +258,6 @@ MonoBehaviour:
   isFarmFieldSeed: 0
   isFarmFieldWater: 0
   isFarmFieldComplete: 0
-  isStone: 1
-  isTree: 1
 --- !u!65 &8102826290278585549
 BoxCollider:
   m_ObjectHideFlags: 0
