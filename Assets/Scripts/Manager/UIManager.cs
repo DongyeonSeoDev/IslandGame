@@ -8,9 +8,6 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] private Image fadePanel = null; // 페이드 인, 페이드 아웃 패널
     [SerializeField] private RectTransform ui = null; // 상호작용 가능한 오브젝트를 선택했을때 나오는 UI
 
-    [SerializeField] private Vector2 limitMaxPosition = Vector2.zero; // 상호작용 가능한 오브젝트를 선택했을때 나오는 UI의 최대 위치
-    [SerializeField] private Vector2 limitMinPosition = Vector2.zero; // 상호작용 가능한 오브젝트를 선택했을때 나오는 UI의 최소 위치
-
     // UI 관련 시간
     [SerializeField] private float delayTime = 0f;
     [SerializeField] private float fadeTime = 0f;
@@ -44,6 +41,8 @@ public class UIManager : Singleton<UIManager>
     private bool showBoat = false; // 보트 UI 상태
     public GameObject boatPanel = null; // 보트 UI
     public GameObject clearPanel = null; // 게임 클리어 UI
+
+    public RectTransform uiCanvas;
 
     private GameManager gameManager;
 
@@ -251,10 +250,13 @@ public class UIManager : Singleton<UIManager>
 
     private void MoveUI() // 이미지 움직임
     {
-        targetPosition = Input.mousePosition;
+        float x = Input.mousePosition.x / Screen.width;
+        float y = Input.mousePosition.y / Screen.height;
 
-        targetPosition.x = Mathf.Clamp(targetPosition.x, limitMinPosition.x, limitMaxPosition.x);
-        targetPosition.y = Mathf.Clamp(targetPosition.y, limitMinPosition.y, limitMaxPosition.y);
+        targetPosition = new Vector2(x * uiCanvas.rect.width, y * uiCanvas.rect.height);
+
+        targetPosition.x = Mathf.Clamp(targetPosition.x, 250f, uiCanvas.rect.width - 250f);
+        targetPosition.y = Mathf.Clamp(targetPosition.y, 250f, uiCanvas.rect.height - 250f);
 
         ui.anchoredPosition = targetPosition;
     }
@@ -293,7 +295,6 @@ public class UIManager : Singleton<UIManager>
         if (InventoryManager.GetItemCount(InventoryItem.Tree) < 10
             || InventoryManager.GetItemCount(InventoryItem.Stone) < 10
             || InventoryManager.GetItemCount(InventoryItem.Iron) < 10
-            || GameManager.topUICount[TopUI.Electricity] < 20
             || !gameManager.isLight)
         {
             return;
